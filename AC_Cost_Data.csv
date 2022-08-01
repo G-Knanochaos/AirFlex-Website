@@ -1,0 +1,47 @@
+KwhPH,Type,Size,GOT,Dchange,Dmult,State,CostKwh,EER,Emult
+3,central,small,0.3,0,0,Alabama,12.41,6,1.29
+4,central,medium,0.4,1,0.121,Alaska,22.54,6.5,1.24
+5,central,large,0.5,2,0.348,Arizona,13.16,7,1.18
+0.45,window unit,small,0.1,3,0.595,Arkansas,9.99,7.5,1.12
+0.715,window unit,medium,0.125,4,0.776,California,19.9,8,1.06
+1.25,window unit,large,0.2,5,0.883,Colorado,12.28,8.5,1
+1.5,mini split,small,0.5,6,0.96,Connecticut,21.62,9,0.94
+1.5,mini split,medium,0.5,7,1,DC,13.21,9.5,0.88
+1.5,mini split,large,0.5,8,1.04,Delaware,12.05,10,0.82
+,,,,9,1.08,Florida,11.37,10.5,0.76
+,,,,10,1.12,Georgia,12.26,11,0.71
+,,,,11,1.17,Hawaii,32.76,11.5,0.64
+,,,,12,1.22,Idaho,10.58,12,0.59
+,,,,13,1.27,Illinois,12.56,,
+,,,,14,1.32,Indiana,12.02,,
+,,,,15,1.37,Iowa,13.81,,
+,,,,16,1.42,Kansas,11.56,,
+,,,,17,1.48,Kentucky,10.56,,
+,,,,18,1.54,Louisiana,9.37,,
+,,,,19,1.6,Maine,16.16,,
+,,,,20,1.67,Maryland,13.92,,
+,,,,21,1.73,Massachusetts,21.11,,
+,,,,22,1.8,Michigan,16.07,,
+,,,,23,1.87,Minnesota,14.09,,
+,,,,24,1.95,Mississippi,11.55,,
+,,,,25,2.03,Missouri,13.23,,
+,,,,26,2.11,Montana,11.85,,
+,,,,27,2.19,Nebraska,11.31,,
+,,,,28,2.28,Nevada,11.67,,
+,,,,29,2.37,New Hampshire,19.63,,
+,,,,30,2.46,New Jersey,15.64,,
+,,,,,,New Mexico,13.37,,
+,,,,,,New York,19.3,,
+,,,,,,North Carolina,11.24,,
+,,,,,,North Dakota,12.07,,
+,,,,,,Ohio,12.64,,
+,,,,,,Oklahoma,10.72,,
+,,,,,,Oregon,11.02,,
+,,,,,,Pennsylvania,14.38,,
+,,,,,,Rhode Island,18.64,,
+,,,,,,South Carolina,12.91,,
+,,,,,,South Dakota,12.39,,
+,,,,,,Tennessee,10.79,,
+,,,,,,Texas,11.36,,
+,,,,,,Utah,10.63,,
+,,,,,,Vermont,18.5,,
