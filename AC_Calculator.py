@@ -17,9 +17,10 @@ def rep_input(inp, ans=None, int_only=False, rep=False, nns=False):
             return float(res)
         except ValueError:
             return res if res == 'not sure' else rep_input(inp, int_only=True, rep=True)
-    return res if res in [x.lower() for x in ans] + ['not sure'] and not nns else res if res in [x.lower() for x in
-                                                                                                 ans] else rep_input(
-        inp, ans=ans, rep=True, nns=nns)
+    return res if not ans and not int_only or res in [x.lower() for x in ans if isinstance(x, str)] + ['not sure'] and \
+                  not nns else res if res in [x.lower() for x in ans if isinstance(x, str)] else rep_input(inp, ans=ans,
+                                                                                                           rep=True,
+                                                                                                           nns=nns)
 
 
 def conversion(val, conversion, l_bound=None, u_bound=None):
@@ -53,40 +54,47 @@ def KwH_Ques():
 def csv_loc(csv):
     try:
         city = rep_input("What is the nearest major city to you (preferably >100 miles): ", nns=True)
-        date = rep_input("What month of the year is it (enter a number)? ", ans=[n + 1 for n in range(12)], nns=True)
-        return csv['Station.City'].loc[
-            [city], ['Data.Temperature.Avg Temp', 'Data.Temperature.Max Temp']].values.flatten()
+        date = rep_input("What month of the year is it (enter a number)? ", ans=[str(n + 1) for n in range(12)],
+                         nns=True)
+        filt = (csv['Station.City'] == city) & (csv['Date.Month'] == int(date))
+        return csv.loc[filt, ['Data.Temperature.Avg Temp', 'Data.Temperature.Max Temp']]
     except:
         print("Make sure the city you entered is 1) a city (not a county/state) and 2) doesn't contain spelling errors")
-        csv_loc(csv)
+        return csv_loc(csv)
 
 
 def Price_Ques(kwh, tense):
     tense_dict = {'present': ['was', 'today', 'did'], 'past': ['is', 'most days', 'do']}
     t1, t2, t3 = tense_dict[tense]
     EER = rep_input(
-        "What is the EER (energy efficiency ratio) of your air conditioner ('not sure' if you don't know): ",
-        ans=[str(n / 2) for n in range(12, 25)])
+        "What is the EER (energy efficiency ratio) of your air conditioner : format w/ 1 decminal point ('not sure' "
+        "if you don't knot): ", ans=[str(n / 2) for n in range(12, 25)])
     if EER == 'not sure':
         EER = '8.5'
     hours = rep_input(f'How many hours {t1} your air conditioner on {t2}? ', int_only=True, nns=True)
-    temp = rep_input(f'What temperature {t3} you set your air conditioner to? ', int_only=True, nns=True)
-    state = rep_input(f'What state do you live in? ', ans=[AC_csv.loc['State'].values.flatten()], nns=True)
-    use_csv = rep_input("Would you like to use average temperature data for your area (recommended unless there is"
+    temp = rep_input(f'What temperature {t3} you set your air conditioner to (F)? ', int_only=True, nns=True)
+    state = rep_input(f'What state do you live in? ', ans=list(AC_csv['State'].values.flatten()), nns=True)
+    use_csv = rep_input("Would you like to use average temperature data for your area (recommended unless there is "
                         "abnormally high or low weather conditions at the moment in your area) (y/n): ", ans=['y', 'n'],
                         nns=True)
     W_csv = pd.read_csv('WBC.csv')
-    W_csv.applymap(lambda s: s.lower())
+    W_csv['Station.City'] = W_csv['Station.City'].str.lower()
     if use_csv == 'y':
-        avgs = csv_loc(W_csv)
-        avg = ((avgs[0] + (avgs[1] * 3)) / 4)
+        avg_max = csv_loc(W_csv)
+        avgs = [avg_max['Data.Temperature.Avg Temp'].mean(), avg_max['Data.Temperature.Max Temp'].mean()]
+        avg = (avgs[0] + (avgs[1] * 5)) / 6
     elif use_csv == 'n':
         avgs = [rep_input('What was the average temperature today? ', int_only=True, nns=True),
                 rep_input('What was the high temperature today? ', int_only=True, nns=True)]
-        avg = ((avgs[0] + (avgs[1] * 3)) / 4)
-    AC_csv.applymap(lambda s: s.lower())
-    return hours * (AC_csv['Dchange'].loc[int(avg - temp), 'Dmult']) * (AC_csv['State'].loc[state, 'CostKwh']) * (
-    AC_csv['EER'].loc[EER, 'Emult']) / 100
+        avg = ((avgs[0] + (avgs[1] * 5))) / 6
+    AC_csv['State'] = AC_csv['State'].str.lower()
+    print(hours)
+    print((AC_csv.loc[AC_csv['Dchange'] == int(avg - temp), 'Dmult']).values.flatten())
+    print(AC_csv.loc[AC_csv['State'] == state, 'CostKwh'].values.flatten())
+    print(AC_csv.loc[AC_csv['EER'] == float(EER), 'Emult'].values.flatten())
+    return hours * float(AC_csv.loc[AC_csv['Dchange'] == int(avg - temp), 'Dmult']) * float(
+        AC_csv.loc[AC_csv['State'] == state, 'CostKwh']) * float(
+        AC_csv.loc[AC_csv['EER'] == float(EER), 'Emult']) * float(kwh) / 100
 
 
 if __name__ == '__main__':
@@ -95,4 +103,4 @@ if __name__ == '__main__':
         print(f'Your air conditioner spends {kwhph[0]} kWh hourly, give or take {kwhph[1]} kWh.')
     if not kwhph[1]:
         print(f'Your air conditioner spends aproximatley {kwhph[0]} kWh hourly.')
-    Price_Ques(kwhph[0], 'present')
+    print(f"You spent aproximatley \n${Price_Ques(kwhph[0], 'present')}\n today on air conditioning.")
