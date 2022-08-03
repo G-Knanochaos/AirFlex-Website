@@ -100,19 +100,22 @@ def Price_Ques(kwh, tense, rdeg=False):
 
 
 def inp_sugg_temp(cost, hours, Dchange, avg):
-    goal = (round(float(rep_input('What is your AC budget (monthly)? ', int_only=True, nns=True)), 2) / cost / 30)
+    goal = (round(float(rep_input('What is your AC budget (monthly)? ', int_only=True, nns=True)), 2) / (cost * 30))
     priority = rep_input(
         'What would you NOT like to change ("hours" of AC, AC "temp", or "both" are of equal importance)? ',
         ans=['hours', 'temp', 'both'], nns=True)
-    return [False, False, avg] if goal > 1 else [math.floor((goal / (cost / hours)) * 100) / 100, Dchange,
-                                                 avg] if priority == 'temp' else [hours, np.log(
-        AC_csv['Dchange'].loc[Dchange, 'Dmult'] * goal) / np.log(1.04) + 7, avg] if priority == 'hours' else [
-        math.floor(round(math.sqrt(goal), 5) / (cost / hours) * 100) / 100, Dchange,
-        np.log(AC_csv['Dchange'].loc[floor(Dchange), 'Dmult'] * round(math.sqrt(goal), 5)) / np.log(1.04) + 7,
-        avg] if priority == 'both' else ['Error', 'Error', avg]
+
+    return [False, False, avg] if goal > 1 else [math.floor((goal * hours) * 100) / 100, Dchange,
+                                                 avg] if priority == 'temp' else [hours, abs((np.log(
+        AC_csv.loc[AC_csv['Dchange'] == math.floor(Dchange), 'Dmult'].values.flatten()[0] * goal) / np.log(1.04)) + 7),
+                                                                                  avg] if priority == 'hours' else [
+        math.floor((round(math.sqrt(goal), 5) * hours) * 100) / 100, abs((np.log(
+            AC_csv.loc[AC_csv['Dchange'] == math.floor(Dchange), 'Dmult'].values.flatten()[0] * round(math.sqrt(goal),
+                                                                                                      5)) / np.log(
+            1.04)) + 7), avg] if priority == 'both' else ['Error', 'Error', avg]
 
 
-# ---[NO INPUT]---
+# ---[SEND TO SERVER]---
 
 
 def send(info):
@@ -207,6 +210,25 @@ def Price(kwh, tense, rdea=False):
     if rdeg:
         return [res, hours, temp, avg]
     return res
+
+
+def sugg_temp(cost, hours, Dchange, avg):
+    goal = (round(float(Qreq('What is your AC budget (monthly)? ', int_only=True, ns=True)), 2) / (cost * 30))
+    priority = Qreq(
+        'What would you NOT like to change ("hours" of AC, AC "temp", or "both" are of equal importance)? ',
+        val_ans=['hours', 'temp', 'both'], ns=True, mc=True)
+
+    return [False, False, avg] if goal > 1 else [math.floor((goal * hours) * 100) / 100, Dchange,
+                                                 avg] if priority == 'temp' else [hours, abs((np.log(
+        AC_csv.loc[AC_csv['Dchange'] == math.floor(Dchange), 'Dmult'].values.flatten()[0] * goal) / np.log(1.04)) + 7),
+                                                                                  avg] if priority == 'hours' else [
+        math.floor((round(math.sqrt(goal), 5) * hours) * 100) / 100, abs((np.log(
+            AC_csv.loc[AC_csv['Dchange'] == math.floor(Dchange), 'Dmult'].values.flatten()[0] * round(math.sqrt(goal),
+                                                                                                      5)) / np.log(
+            1.04)) + 7), avg] if priority == 'both' else ['Error', 'Error', avg]
+
+
+# ---[PURE CALCULATION]---
 
 
 if __name__ == '__main__':
