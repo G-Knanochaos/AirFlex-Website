@@ -1,5 +1,6 @@
 import pandas as pd
 import numpy as np
+import math
 
 AC_csv = pd.read_csv('AC data/AC_Cost_Data.csv')
 
@@ -63,7 +64,7 @@ def inp_csv_loc(csv, date, rep=False):
     return res
 
 
-def Price_Ques(kwh, tense):
+def Price_Ques(kwh, tense, rdeg=False):
     tense_dict = {'present': ['was', 'today', 'did'], 'past': ['is', 'most days', 'do']}
     t1, t2, t3 = tense_dict[tense]
     EER = rep_input(
@@ -90,12 +91,29 @@ def Price_Ques(kwh, tense):
                 rep_input('What was the high temperature today? ', int_only=True, nns=True)]
         avg = ((avgs[0] + (avgs[1] * 5))) / 6
     AC_csv['State'] = AC_csv['State'].str.lower()
-    return hours * float(AC_csv.loc[AC_csv['Dchange'] == int(avg - temp), 'Dmult']) * float(
+    res = hours * float(AC_csv.loc[AC_csv['Dchange'] == int(avg - temp), 'Dmult']) * float(
         AC_csv.loc[AC_csv['State'] == state, 'CostKwh']) * float(
         AC_csv.loc[AC_csv['EER'] == float(EER), 'Emult']) * float(kwh) / 100
+    if rdeg:
+        return [res, hours, avg - temp, avg]
+    return res
+
+
+def inp_sugg_temp(cost, hours, Dchange, avg):
+    goal = (round(float(rep_input('What is your AC budget (monthly)? ', int_only=True, nns=True)), 2) / cost / 30)
+    priority = rep_input(
+        'What would you NOT like to change ("hours" of AC, AC "temp", or "both" are of equal importance)? ',
+        ans=['hours', 'temp', 'both'], nns=True)
+    return [False, False, avg] if goal > 1 else [math.floor((goal / (cost / hours)) * 100) / 100, Dchange,
+                                                 avg] if priority == 'temp' else [hours, np.log(
+        AC_csv['Dchange'].loc[Dchange, 'Dmult'] * goal) / np.log(1.04) + 7, avg] if priority == 'hours' else [
+        math.floor(round(math.sqrt(goal), 5) / (cost / hours) * 100) / 100, Dchange,
+        np.log(AC_csv['Dchange'].loc[floor(Dchange), 'Dmult'] * round(math.sqrt(goal), 5)) / np.log(1.04) + 7,
+        avg] if priority == 'both' else ['Error', 'Error', avg]
 
 
 # ---[NO INPUT]---
+
 
 def send(info):
     print(info)
@@ -156,7 +174,7 @@ def csv_loc(csv, date, err=None):
     return res
 
 
-def Price(kwh, tense):
+def Price(kwh, tense, rdea=False):
     tense_dict = {'present': ['was', 'today', 'did'], 'past': ['is', 'most days', 'do']}
     t1, t2, t3 = tense_dict[tense]
     EER = Qreq(
@@ -183,9 +201,12 @@ def Price(kwh, tense):
                 Qreq('What was the high temperature today? ', int_only=True, ns=True)]
         avg = ((avgs[0] + (avgs[1] * 5))) / 6
     AC_csv['State'] = AC_csv['State'].str.lower()
-    return hours * float(AC_csv.loc[AC_csv['Dchange'] == int(avg - temp), 'Dmult']) * float(
+    res = hours * float(AC_csv.loc[AC_csv['Dchange'] == int(avg - temp), 'Dmult']) * float(
         AC_csv.loc[AC_csv['State'] == state, 'CostKwh']) * float(
         AC_csv.loc[AC_csv['EER'] == float(EER), 'Emult']) * float(kwh) / 100
+    if rdeg:
+        return [res, hours, temp, avg]
+    return res
 
 
 if __name__ == '__main__':
@@ -194,4 +215,7 @@ if __name__ == '__main__':
         print(f'Your air conditioner spends {kwhph[0]} kWh hourly, give or take {kwhph[1]} kWh.')
     if not kwhph[1]:
         print(f'Your air conditioner spends aproximatley {kwhph[0]} kWh hourly.')
-    print(f"You spent aproximatley \n${round(Price_Ques(kwhph[0], 'present'), 2)}\n today on air conditioning.")
+    p = Price_Ques(kwhph[0], 'present', rdeg=True)
+    print(f"You spent aproximatley \n${round(p[0], 2)}\n today on air conditioning.")
+    sugg = inp_sugg_temp(p[0], p[1], p[2], p[3])
+    print(f"You should put your thermostat at {math.floor(sugg[2] - sugg[1])} degrees for {round(sugg[0], 2)} hours.")
