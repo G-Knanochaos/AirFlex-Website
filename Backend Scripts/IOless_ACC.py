@@ -28,14 +28,14 @@ def csv_loc(csv, month, city, err=None):
     return res
 
 
-def Price(kwh, EER, hours, temp, state, use_csv=True, month=None, avg_=None, high=None, rdeg=False):
+def Price(kwh, EER, hours, temp, state, city=None, use_csv=True, month=None, avg_=None, high=None, rdeg=False):
     W_csv = pd.read_csv('AC data/WBC.csv')
     W_csv['Station.City'] = W_csv['Station.City'].str.lower()
     if use_csv:
-        avg_max = csv_loc(W_csv, month)
+        avg_max = csv_loc(W_csv, month, city)
         avgs = [avg_max['Data.Temperature.Avg Temp'].mean(), avg_max['Data.Temperature.Max Temp'].mean()]
         avg = (avgs[0] + (avgs[1] * 5)) / 6
-    elif not use_csv
+    elif not use_csv:
         avgs = [avg_, high]
         avg = ((avgs[0] + (avgs[1] * 5))) / 6
     AC_csv['State'] = AC_csv['State'].str.lower()
