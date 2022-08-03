@@ -19,7 +19,7 @@ def login():
             if check_password_hash(user.password, password):
                 flash('Logged in successfully!', category='success')
                 login_user(user, remember=True)
-                return redirect(url_for('views.home'))
+                return redirect(url_for("views.aircalculator"))
             else:
                 flash('Incorrect password. Try again hacker.', category = 'error')
         else:
@@ -41,10 +41,10 @@ def signup():
         password1 = request.form.get('password1')
         password2 = request.form.get('password2')
 
-        user = User.query.filter_by(email=email).first()
-        if user:
-            flash('Email already exists. Please try again.', category = 'error')
-        elif len(email) < 4:
+        #user = User.query.filter_by(email=email).first()
+        #if user:
+            #flash('Email already exists. Please try again.', category = 'error')
+        if len(email) < 4:
             flash('Email must be longer than 3 characters. Please try again.', category = 'error')
         elif len(username) < 2:
             flash('User name must be longer than 1 character. Please try again.', category = 'error')
@@ -59,6 +59,6 @@ def signup():
             db.session.add(new_user)
             db.session.commit()
             flash('Account Created!', category = 'success')
-            login_user(user, remember=True)
+            login_user(new_user, remember=True)
             return redirect(url_for('views.home'))
     return render_template("sign-up.html",user=current_user)
