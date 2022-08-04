@@ -85,7 +85,14 @@ block style_specs %}
     <input type="text" size="5" name="b" /> = <span id="result">?</span>
   </p>
   <p><a href="home" id="calculate">calculate server side</a></p>
-
+  <br />
+  <h1>Your DATA</h1>
+  {% for datum in user.ACdata %}
+    <p>BTU {{datum.hours}}</p>
+    <p>EER {{datum.temp}}</p>
+    <p>SAVE {{datum.estimated_bill}}</p>
+    <br/>
+  {% endfor %}
   <!--Form scripts-->
   <script>
     function LoadNextQuestion(QuestionID,parent = null) {
@@ -354,9 +361,9 @@ block style_specs %}
       Would you like to save your data today?
     </h2>
   </div>
-  <input type="radio" id="save-yes" name="save" value="1" />
+  <input type="radio" id="save-yes" name="save" value="yes" />
       <label for="save_yes">Yes</label><br />
-      <input type="radio" id="save-no" name="save" value="0" />
+      <input type="radio" id="save-no" name="save" value="no" />
       <label for="save-no">No</label><br />
       <button id="submit_button" type="submit" class="btn btn-primary">Done</button>
 </div>

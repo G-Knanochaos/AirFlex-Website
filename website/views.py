@@ -1,6 +1,7 @@
-from flask import Blueprint, redirect, url_for, render_template, request, jsonify
+from flask import Blueprint, redirect, url_for, render_template, request, jsonify, flash
 from flask_login import login_required, current_user
-
+from .models import ACdatum
+from . import db
 
 views = Blueprint('views',__name__)
 
@@ -21,8 +22,24 @@ def webflow():
 @views.route('aircalculator', methods = ['GET','POST'])
 @login_required
 def aircalculator():
-    if request.method == 'POST':
-        return request.form
+    if request.method == 'POST': #this checks the request type
+        '''
+        #example of how to make new ACdata instance
+        hours, temp, bill = some_backend_function(request.form)
+        new_ACdatum = ACdatum(hours=hours,temp=temp,estimated_bill=bill)
+        db.session.add(new_ACdatum)
+        db.session.commit()
+        '''
+        #return request.form
+        if request.form.get("save"):
+            
+            new_ACdatum = ACdatum(hours=request.form.get("BTU_rating"),\
+                                  temp=request.form.get("EER"),\
+                                  estimated_bill=request.form.get("temp"),\
+                                  user_id = current_user.id) #associates data with current_user
+            db.session.add(new_ACdatum) #adds data to db session
+            db.session.commit() #commits data 
+        return render_template("aircalculator.html",user=current_user) #this is what will be returned to the page
     return render_template("aircalculator.html",user=current_user)
 
 @views.route('next_question', methods = ['GET', 'POST'])
