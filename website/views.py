@@ -4,7 +4,7 @@ from .models import ACdatum, FanData  # FanData
 from . import db
 from .Backend_Scripts import AC_Calc
 from .Backend_Scripts.AC_Calc import input_request as inp
-from .Backend_Scripts.Alt import fan_Ques, fan_price
+from .Backend_Scripts.Alt import fan_price
 
 views = Blueprint('views', __name__)
 
