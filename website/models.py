@@ -11,11 +11,12 @@ class ACdatum(db.Model):
     date = db.Column(db.DateTime(timezone=True), default=func.now()) #func.now() returns current date and time
     user_id = db.Column(db.Integer, db.ForeignKey('user.id')) #connects ACdata to a user
 
-'''
-class FanData():
-    def __init__(self):
-        #create class variables
-'''
+class FanData(db.Model):
+    id = db.Column(db.Integer,
+                   primary_key=True)  # main key that will be used to identify any saved ACdata instances
+    estimated_bill = db.Column(db.Integer())
+    date = db.Column(db.DateTime(timezone=True), default=func.now())  # func.now() returns current date and time
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))  # connects ACdata to a user
 
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True) #primary key is the main key for the user
