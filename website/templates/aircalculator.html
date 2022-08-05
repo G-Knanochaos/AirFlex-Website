@@ -7,6 +7,32 @@ block style_specs %}
 />
 {% endblock %} {% block content %}
 
+{% if display == 1 %}
+<div align = "center" class="section cc-home-wrap">
+  <section class="features-list wf-section">
+    <div style = "border: 10px outset rgb(89, 155, 255); border-radius: 10px; background-color: rgb(89, 155, 255)">
+        <h1 class="heading-3">Your results:</h1>
+        <ul role="list">
+          <li class="features-block-two">
+            <p class="paragraph">
+              - On an average day you spend {{results[0]}} dollars on air conditioning...
+            </p>
+          </li>
+          <li class="features-block-two">
+            <p class="paragraph-2">
+              - Based on our calculations you should reduce your daily hourly usage to {{results[1]}} hours to save electricity...
+            </p>
+          </li>
+          <li class="features-block-two">
+            <p class="paragraph-3">
+              - And you should increase AC temp usage to {{results[1]}} degrees...
+            </p>
+          </li>
+        </ul>
+      </div>
+  </section>
+</div>
+{% else %}
 <div class="section cc-home-wrap">
   <section class="features-list wf-section">
     <div class="container-2">
@@ -60,16 +86,10 @@ block style_specs %}
     </div>
   </section>
 </div>
+{% endif %}
 <section class="hero-heading-center wf-section">
   <!--Next Question Request Script-->
   <br />
-  <h1>Your DATA</h1>
-  {% for datum in user.ACdata %}
-    <p>BTU {{datum.hours}}</p>
-    <p>EER {{datum.temp}}</p>
-    <p>SAVE {{datum.estimated_bill}}</p>
-    <br/>
-  {% endfor %}
   
   <!--Form scripts-->
   <script>

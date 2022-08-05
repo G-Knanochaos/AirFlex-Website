@@ -7,18 +7,54 @@ block style_specs %}
 />
 {% endblock %} {% block content %}
 
-<div class="section cc-store-home-wrap">
-  <div class="intro-header">
-    <div class="intro-content cc-homepage">
-      <div class="intro-text">
-        <div class="heading-jumbo">Welcome to the Fan Calculator</div>
-        <div class="paragraph-bigger">
-          Let's Calculate your Fan Usage!<br />
+{% if display == 1 %}
+<div align = "center" class="section cc-home-wrap">
+  <section class="features-list wf-section">
+    <div style = "border: 10px outset rgb(89, 155, 255); border-radius: 10px; background-color: rgb(89, 155, 255)">
+        <h3 class = "heading-3">Results: Your spend an average of {{bill}} cents on this fan everyday. Compared to how much you spend on your AC, you are saving a lot of money with this fan</h3>
+    </div>
+  </section>
+</div>
+{% else %}
+<div class="section cc-home-wrap">
+  <section class="features-list wf-section">
+    <div class="container-2">
+      <div class="features-wrapper-two">
+        <div class="features-left">
+          <h1 class="heading-3">Let&#x27;s Calculate Your Fan</h1>
+          <p class="features-paragraph">
+            Find alternatives to your AC with the Fan Calculator
+          </p>
         </div>
+        <ul role="list" class="features-right w-list-unstyled">
+          <li class="features-block-two">
+            <img
+              src="https://uploads-ssl.webflow.com/62434fa732124a0fb112aab4/62434fa732124a28a812aad9_placeholder%202.svg"
+              loading="lazy"
+              alt=""
+              class="features-image"
+            />
+            <p class="paragraph">
+              Discover how much you spend on fans on an average day...
+            </p>
+          </li>
+          <li class="features-block-two">
+            <img
+              src="https://uploads-ssl.webflow.com/62434fa732124a0fb112aab4/62434fa732124ace5e12aae4_portfolio%204%20-%20wide.svg"
+              loading="lazy"
+              alt=""
+              class="features-image"
+            />
+            <p class="paragraph-2">
+              Find out how much you save by using fans instead of your AC...
+            </p>
+          </li>
+        </ul>
       </div>
     </div>
-  </div>
+  </section>
 </div>
+{% endif %}
 <section class="hero-heading-center wf-section">
   <!--Form scripts-->
   <script>
@@ -36,12 +72,6 @@ block style_specs %}
       }
     }
   </script>
-  <h1>Your DATA</h1>
-  {% for datum in user.fanData %}
-    <p>Estimated Daily Fan Bill {{datum.estimated_bill}}</p>
-    <br/>
-  {% endfor %}
-
   <form method="POST" onkeydown="return event.key != 'Enter';">
     <div class="form-group">
     <!--WATTAGE-->
