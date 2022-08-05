@@ -36,6 +36,11 @@ block style_specs %}
       }
     }
   </script>
+  <h1>Your DATA</h1>
+  {% for datum in user.fanData %}
+    <p>Estimated Daily Fan Bill {{datum.estimated_bill}}</p>
+    <br/>
+  {% endfor %}
 
   <form method="POST" onkeydown="return event.key != 'Enter';">
     <div class="form-group">

@@ -56,12 +56,18 @@ def fancalculator():
     if request.method == 'POST':
         price = fan_price(inp('state'), inp('type'), inp('wattage'), inp('hours'))
         if request.form.get("save"):
-            new_ACdatum = FanData(estimated_bill=price,
+            new_fanData = FanData(estimated_bill=price,
                                   user_id=current_user.id)
-            db.session.add(new_ACdatum)
+            db.session.add(new_fanData)
             db.session.commit()
-        return price  # this is what will be returned to the page
+        return render_template("fancalculator.html", user=current_user) # this is what will be returned to the page
     return render_template("fancalculator.html", user=current_user)
+
+@views.route('actracker',methods = ['GET','POST'])
+@login_required
+def actracker():
+    return render_template("actracker.html",user=current_user)
+
 
 
 @views.route('next_question', methods=['GET', 'POST'])
