@@ -20,12 +20,12 @@ def conversion(val, conversion):
 
 
 def KwH(BTU, watts, type, size):
-        AC_csv = pd.read_csv('website/Backend_Scripts/AC_Data/AC_Cost_Data.csv')
-        if conversion(BTU, 1 / 12000):
-            return [conversion(BTU, 1 / 12000), None]
-        if conversion(watts, 1 / 1000):
-            return [conversion(watts, 1 / 1000), None]
-        return pd.DataFrame(AC_csv.loc[(AC_csv['Type'] == type) & (AC_csv['Size'] == size), ['KwhPH', 'GOT']])
+    AC_csv = pd.read_csv('website/Backend_Scripts/AC_Data/AC_Cost_Data.csv')
+    if conversion(BTU, 1 / 12000):
+        return [conversion(BTU, 1 / 12000), None]
+    if conversion(watts, 1 / 1000):
+        return [conversion(watts, 1 / 1000), None]
+    return pd.DataFrame(AC_csv.loc[(AC_csv['Type'] == type) & (AC_csv['Size'] == size), ['KwhPH', 'GOT']])
 
 
 def csv_loc(csv, month, city, err=None):
@@ -57,9 +57,7 @@ def Price(kwh, EER, hours, temp, state, use_csv, city, month, avg_, high, save):
                 AC_csv.loc[AC_csv['State'].str.lower() == state.lower(), 'CostKwh'].values.flatten()[0]) * float(
                 AC_csv.loc[AC_csv["EER"] == float(EER), "Emult"].values.flatten()[0]) * float(kwh) / 100
             print(res)
-            if save:
-                return [res, hours, temp, avg]
-        return res
+    return [res, hours, temp, avg]
 
 
 def sugg_temp(cost, hours, Dchange, avg, target, priority):
