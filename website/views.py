@@ -1,9 +1,10 @@
 from flask import Blueprint, redirect, url_for, render_template, request, jsonify, flash
 from flask_login import login_required, current_user
-from .models import ACdatum  # FanData
+from .models import ACdatum, FanData  # FanData
 from . import db
 from .Backend_Scripts import AC_Calc
 from .Backend_Scripts.AC_Calc import input_request as inp
+from .Backend_Scripts.Alt import fan_Ques, fan_price
 
 views = Blueprint('views', __name__)
 
@@ -41,11 +42,10 @@ def aircalculator():
         if request.form.get("save"):
             new_ACdatum = ACdatum(hours=res_iter[1],
                                   temp=res_iter[2],
-                                  estimated_bill=res_ter[0],
+                                  estimated_bill=res_iter[0],
                                   user_id=current_user.id)
             db.session.add(new_ACdatum)
             db.session.commit()
-        print(f'\n{res_iter}\n')
         return res_iter  # this is what will be returned to the page
     return render_template("aircalculator.html", user=current_user)
 
@@ -54,14 +54,13 @@ def aircalculator():
 @login_required
 def fancalculator():
     if request.method == 'POST':
-        form = request.form
-        '''
-        new_fanData = FanData(#class variable list)
-        #do fan calculations
-        current_user.fanData = new_fanData
-        db.session.commit()
-        '''
-        return form
+        price = fan_price(inp('state'), inp('type'), inp('wattage'), inp('hours'))
+        if request.form.get("save"):
+            new_ACdatum = FanData(estimated_bill=price,
+                                  user_id=current_user.id)
+            db.session.add(new_ACdatum)
+            db.session.commit()
+        return price  # this is what will be returned to the page
     return render_template("fancalculator.html", user=current_user)
 
 
