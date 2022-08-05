@@ -1,0 +1,38 @@
+{% extends "base2.html" %} {% block title %}Air Calculator{% endblock %} {%
+block style_specs %}
+<link
+  href="https://uploads-ssl.webflow.com/62e8b794c129c6d31dfb3e87/css/g-ks-dandy-site.webflow.19a544437.css"
+  rel="stylesheet"
+  type="text/css"
+/>
+{% endblock %} {% block content %}
+
+
+<section class="hero-heading-center wf-section">
+
+  <!--Next Question Request Script-->
+  <br />
+  <div align = "center">
+    <h1 align = "center">Your AC Usage Progress</h1>
+    <p>Discover how much money you've saved and visually see your progress over time.</p>
+  </div>
+  <hr class="mt-2 mb-3"/>
+
+  <h2>It looks like you don't have any data yet! Log your first AC usage day below.</h2>
+  <div>
+    <a
+      href="accalculator"
+      class="button cc-jumbo-button cc-jumbo-white w-inline-block"
+      ><div>Calculate your fan usage</div></a
+    >
+  </div>
+  {% else %}
+  <!--Graph Template-->
+  <div style = "border: 10px outset rgb(89, 155, 255); border-radius: 10px">
+    <h3>Your AC data</h3>
+  </div>
+  {% endif %}
+
+  
+</section>
+{% endblock %}
