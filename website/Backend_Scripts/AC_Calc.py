@@ -3,6 +3,19 @@ import pandas as pd
 import numpy as np
 import math
 
+monthdict = {'Janauary': 1,
+             'February': 2,
+             'March': 3,
+             'April': 4,
+             'May': 5,
+             'June': 6,
+             'July': 7,
+             'August': 8,
+             'September': 9,
+             'October': 10,
+             'November': 11,
+             'December': 12}
+
 
 def input_request(ques):
     if request.form.get(ques) and request.form.get != '':
@@ -29,10 +42,10 @@ def KwH(BTU, watts, type, size):
 
 
 def csv_loc(csv, month, city, err=None):
-    res = csv.loc[(csv['Station.City'] == city) & (csv['Date.Month'] == int(month)), ['Data.Temperature.Avg Temp',
-                                                                                      'Data.Temperature.Max Temp']]
+    res = csv.loc[(csv['Station.City'] == city) & (csv['Date.Month'] == monthdict[month]), ['Data.Temperature.Avg Temp',
+                                                                                            'Data.Temperature.Max Temp']]
     if res.empty:
-        return csv_loc(csv, month, city,
+        return csv_loc(csv, monthdict[month], city,
                        err="Make sure the city you entered is 1) a city (not a county/state) and 2) "
                            "doesn't contain spelling errors")
     return res
@@ -45,7 +58,7 @@ def Price(kwh, EER, hours, temp, state, use_csv, city, month, avg_, high, save):
             W_csv = pd.read_csv(WV)
             W_csv['Station.City'] = W_csv['Station.City'].str.lower()
             if use_csv:
-                avg_max = csv_loc(W_csv, month, city)
+                avg_max = csv_loc(W_csv, monthdict[month], city)
                 avgs = [avg_max['Data.Temperature.Avg Temp'].mean(), avg_max['Data.Temperature.Max Temp'].mean()]
                 avg = (avgs[0] + (avgs[1] * 5)) / 6
             elif not use_csv:
@@ -56,7 +69,6 @@ def Price(kwh, EER, hours, temp, state, use_csv, city, month, avg_, high, save):
                 AC_csv.loc[AC_csv['Dchange'] == int(avg - temp), 'Dmult'].values.flatten()[0]) * float(
                 AC_csv.loc[AC_csv['State'].str.lower() == state.lower(), 'CostKwh'].values.flatten()[0]) * float(
                 AC_csv.loc[AC_csv["EER"] == float(EER), "Emult"].values.flatten()[0]) * float(kwh) / 100
-            print(res)
     return [res, hours, temp, avg]
 
 
