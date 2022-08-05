@@ -1,0 +1,500 @@
+{% extends "base2.html" %} {% block title %}Air Calculator{% endblock %} {%
+block style_specs %}
+<link
+  href="https://uploads-ssl.webflow.com/62e8b794c129c6d31dfb3e87/css/g-ks-dandy-site.webflow.19a544437.css"
+  rel="stylesheet"
+  type="text/css"
+/>
+{% endblock %} {% block content %}
+
+<div class="section cc-home-wrap">
+  <section class="features-list wf-section">
+    <div class="container-2">
+      <div class="features-wrapper-two">
+        <div class="features-left">
+          <h1 class="heading-3">Let&#x27;s Calculate Your AC</h1>
+          <p class="features-paragraph">
+            Global temperatures are on the rise. Save money and energy while
+            staying cool through<br />Airflex&#x27;s advanced Air Conditioning
+            Calculator.
+          </p>
+        </div>
+        <ul role="list" class="features-right w-list-unstyled">
+          <li class="features-block-two">
+            <img
+              src="https://uploads-ssl.webflow.com/62434fa732124a0fb112aab4/62434fa732124a28a812aad9_placeholder%202.svg"
+              loading="lazy"
+              alt=""
+              class="features-image"
+            />
+            <p class="paragraph">
+              Discover how much you spend on an average day, and ways to save
+              money
+            </p>
+          </li>
+          <li class="features-block-two">
+            <img
+              src="https://uploads-ssl.webflow.com/62434fa732124a0fb112aab4/62434fa732124ace5e12aae4_portfolio%204%20-%20wide.svg"
+              loading="lazy"
+              alt=""
+              class="features-image"
+            />
+            <p class="paragraph-2">
+              Keep track of your progress, and slowly increase savings over time
+            </p>
+          </li>
+          <li class="features-block-two">
+            <img
+              src="https://uploads-ssl.webflow.com/62434fa732124a0fb112aab4/62434fa732124a55c612aae2_portfolio%202%20-%20wide.svg"
+              loading="lazy"
+              alt=""
+              class="features-image"
+            />
+            <p class="paragraph-3">
+              Find a suggested temperature based on local climate and AC
+              effeciency
+            </p>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+</div>
+<section class="hero-heading-center wf-section">
+  <!--Next Question Request Script-->
+  <script>
+    $(function () {
+      $("a#calculate").bind("click", function () {
+        console.log("clicked");
+        $.getJSON(
+          '{{url_for("views.next_question")}}',
+          {
+            a: $('input[name="a"]').val(),
+            b: $('input[name="b"]').val(),
+          },
+          function (data) {
+            $("#result").text(data.result);
+          }
+        );
+        return false;
+      });
+    });
+  </script>
+  <h1>jQuery Example</h1>
+  <p>
+    <input type="text" size="5" name="a" /> +
+    <input type="text" size="5" name="b" /> = <span id="result">?</span>
+  </p>
+
+
+
+  <p><a href="home" id="calculate">calculate server side</a></p>
+  <br />
+  <h1>Your DATA</h1>
+  {% for datum in user.ACdata %}
+    <p>BTU {{datum.hours}}</p>
+    <p>EER {{datum.temp}}</p>
+    <p>SAVE {{datum.estimated_bill}}</p>
+    <br/>
+  {% endfor %}
+  
+  <!--Form scripts-->
+  <script>
+    function LoadNextQuestion(QuestionID,parent = null) {
+      let el = document.getElementById(QuestionID);
+      if (parent == null){
+        el.style = "display:block";
+        el.scrollIntoView(alignToTop = true,{behavior: "smooth", block: "end", inline: "nearest"})
+      }
+      else {
+        if (document.getElementById(parent).value.length != 0){
+          el.style = "display:block";
+          el.scrollIntoView(alignToTop = true,{behavior: "smooth", block: "end", inline: "nearest"})
+        }
+      }
+    }
+  </script>
+
+  <form method="POST" onkeydown="return event.key != 'Enter';">
+    <div class="form-group">
+      <!--BTU RATING-->
+      <div class="container-2">
+        <hr class="mt-2 mb-3"/>
+        <h2 class="centered-heading margin-bottom-32px">
+          What is your AC&#x27;s BTU rating?
+        </h2>
+      </div>
+      <label for="BTU_rating">BTU ranging from 1,000 to 80,000</label>
+      <input
+        type="number"
+        class="form-control"
+        id="BTU_rating"
+        name="BTU_rating"
+        placeholder="E.g. 40,000"
+        step = "1"
+        min="1000"
+        max="100000"
+        onkeydown = "if (event.key == 'Enter'){LoadNextQuestion('EER_form',parent = 'BTU_rating');}"
+      />
+      <br />
+      <button class = "btn btn-light" type="button" onclick="LoadNextQuestion('wattage_form')">
+        Not Sure
+      </button>
+      <br />
+    </div>
+
+    <!--WATTAGE-->
+    <div class="form-group" style="display: none" id="wattage_form">
+      <div class="container-2">
+        <hr class="mt-2 mb-3"/>
+        <h2 class="centered-heading margin-bottom-32px">
+          What is your AC&#x27;s wattage?
+        </h2>
+      </div>
+      <label for="wattage">Wattage ranging from 83 to 6,667</label>
+      <input
+        type="number"
+        class="form-control"
+        id="wattage"
+        name="wattage"
+        placeholder="E.g. 2,000"
+        step = "1"
+        min="83"
+        max="6667"
+        onkeydown = "if (event.key == 'Enter') {LoadNextQuestion('EER_form',parent = 'wattage');}"
+      />
+      <br />
+      <button class = "btn btn-light" type="button" onclick="LoadNextQuestion('size_form')">
+        Not Sure
+      </button>
+      <br />
+    </div>
+
+    <!--SIZE-->
+    <div class="form-group" style="display: none" id="size_form">
+      <div class="container-2">
+        <hr class="mt-2 mb-3"/>
+        <h2 class="centered-heading margin-bottom-32px">
+          What is your AC&#x27;s size?
+        </h2>
+      </div>
+      <input type="radio" id="size-small" name="size" value="small" />
+      <label for="size-small">Small</label><br />
+      <input type="radio" id="size-medium" name="size" value="medium" />
+      <label for="size-medium">Medium</label><br />
+      <input
+        type="radio"
+        id="size-large"
+        name="size"
+        value="large"
+      />
+      <label for="size-large">Large</label>
+      <br />
+      <button type="button" class = "btn btn-secondary" onclick="LoadNextQuestion('type-form')">Next</button>
+      <br />
+    </div>
+
+    <!--TYPE-->
+    <div class="form-group" style="display: none" id="type-form">
+      <div class="container-2">
+        <hr class="mt-2 mb-3"/>
+        <h2 class="centered-heading margin-bottom-32px">
+          What is your AC&#x27;s type?
+        </h2>
+      </div>
+      <input type="radio" id="type-central" name="type" value="central" />
+      <label for="type-central">Central</label><br />
+      <input type="radio" id="type-window" name="type" value="medium" />
+      <label for="type-window">Window</label><br />
+      <input
+        type="radio"
+        id="type-mini_split"
+        name="type"
+        value="mini_split"
+      />
+      <label for="type-mini_split">Mini Split</label>
+      <br />
+      <button type="button" class = "btn btn-secondary" onclick="LoadNextQuestion('EER_form')">Next</button>
+      <br />
+    </div>
+
+    <!--EER-->
+    <div class="form-group" style="display: none" id="EER_form">
+      <div class="container-2">
+        <hr class="mt-2 mb-3"/>
+        <h2 class="centered-heading margin-bottom-32px">
+          What is your AC&#x27;s Energy Efficiency Ratio (EER, average is 8.5)?
+        </h2>
+      </div>
+      <label for="EER">EER ranging from 6.0 to 12.0</label>
+      <input
+        type="number"
+        class="form-control"
+        id="EER"
+        name="EER"
+        placeholder="E.g. 7.5"
+        value = "8.5"
+        step="0.5"
+        min="6.0"
+        max="12.0"
+        onkeydown = "if (event.key == 'Enter'){LoadNextQuestion('hours_form',parent = 'EER');}"
+      />
+      <br />
+      <button type="button" class = "btn btn-light" onclick="LoadNextQuestion('hours_form')">Not Sure</button>
+      <br />
+    </div>
+
+    <!--HOURS-->
+    <div class="form-group" style="display: none" id="hours_form">
+      <div class="container-2">
+        <hr class="mt-2 mb-3"/>
+        <h2 class="centered-heading margin-bottom-32px">
+          What how many hours did you have your AC turned on today (estimate)?
+        </h2>
+      </div>
+      <label for="hours">Hours ranging from 0.0 to 24.0</label>
+      <input
+        type="number"
+        class="form-control"
+        id="hours"
+        name="hours"
+        placeholder="E.g. 12"
+        step = "0.5"
+        min="0"
+        max="24"
+        onkeydown = "if (event.key == 'Enter'){LoadNextQuestion('temp_form',parent = 'hours');}"
+      />
+      <br />
+    </div>
+
+    <!--TEMP-->
+    <div class="form-group" style="display: none" id="temp_form">
+      <div class="container-2">
+        <hr class="mt-2 mb-3"/>
+        <h2 class="centered-heading margin-bottom-32px">
+          What temperature was your AC set to today?
+        </h2>
+      </div>
+      <label for="temp">Fahrenheit ranging from 0 to 100</label>
+      <input
+        type="number"
+        class="form-control"
+        id="temp"
+        name="temp"
+        placeholder="E.g. 72"
+        step = "1"
+        min="0"
+        max="100"
+        onkeydown = "if (event.key == 'Enter'){LoadNextQuestion('state_form',parent = 'temp');}"
+      />
+      <br />
+    </div>
+
+    <!--STATE-->
+    <div class="form-group" style="display: none" id="state_form">
+      <div class="container-2">
+        <hr class="mt-2 mb-3"/>
+        <h2 class="centered-heading margin-bottom-32px">
+          What state do you live in? (used to estimate electricitiy costs)
+        </h2>
+      </div>
+      <div align = "center">
+        <select name="state" class = "form-select" id="state_select">
+          <option value='Alabama'>Alabama</option> 
+          <option value='Alaska'>Alaska</option> 
+          <option value='Arizona'>Arizona</option> 
+          <option value='Arkansas'>Arkansas</option> 
+          <option value='California'>California</option> 
+          <option value='Colorado'>Colorado</option> 
+          <option value='Connecticut'>Connecticut</option> 
+          <option value='Delaware'>Delaware</option> 
+          <option value='Florida'>Florida</option> 
+          <option value='Georgia'>Georgia</option> 
+          <option value='Hawaii'>Hawaii</option> 
+          <option value='Idaho'>Idaho</option> 
+          <option value='Illinois'>Illinois</option> 
+          <option value='Indiana'>Indiana</option> 
+          <option value='Iowa'>Iowa</option> 
+          <option value='Kansas'>Kansas</option> 
+          <option value='Kentucky'>Kentucky</option> 
+          <option value='Louisiana'>Louisiana</option> 
+          <option value='Maine'>Maine</option> 
+          <option value='Maryland'>Maryland</option> 
+          <option value='Massachusetts'>Massachusetts</option> 
+          <option value='Michigan'>Michigan</option> 
+          <option value='Minnesota'>Minnesota</option> 
+          <option value='Mississippi'>Mississippi</option> 
+          <option value='Missouri'>Missouri</option> 
+          <option value='Montana'>Montana</option> 
+          <option value='Nebraska'>Nebraska</option> 
+          <option value='Nevada'>Nevada</option> 
+          <option value='New Hampshire'>New Hampshire</option> 
+          <option value='New Jersey'>New Jersey</option> 
+          <option value='New Mexico'>New Mexico</option> 
+          <option value='New York'>New York</option> 
+          <option value='North Carolina'>North Carolina</option> 
+          <option value='North Dakota'>North Dakota</option> 
+          <option value='Ohio'>Ohio</option> 
+          <option value='Oklahoma'>Oklahoma</option> 
+          <option value='Oregon'>Oregon</option> 
+          <option value='Pennsylvania'>Pennsylvania</option> 
+          <option value='Rhode Island'>Rhode Island</option> 
+          <option value='South Carolina'>South Carolina</option> 
+          <option value='South Dakota'>South Dakota</option> 
+          <option value='Tennessee'>Tennessee</option> 
+          <option value='Texas'>Texas</option> 
+          <option value='Utah'>Utah</option> 
+          <option value='Vermont'>Vermont</option> 
+          <option value='Virginia'>Virginia</option> 
+          <option value='Washington'>Washington</option> 
+          <option value='West Virginia'>West Virginia</option> 
+          <option value='Wisconsin'>Wisconsin</option> 
+          <option value='Wyoming'>Wyoming</option> 
+        </select>
+      <br/>
+      <br/>
+      <button class ="btn btn-secondary" style="height:50px;width:200px" type="button" onclick="LoadNextQuestion('local_temp_question')">Next</button>
+      <br />
+      </div>
+      </div>
+    </div>
+
+    <!--AVG_LOCAL_TEMP_QUESTION-->
+    <div class="form-group" style="display: none" id="local_temp_question">
+      <div class="container-2">
+        <hr class="mt-2 mb-3"/>
+        <h2 class="centered-heading margin-bottom-32px">
+          Would you like to use average temperature data for your area?
+        </h2>
+      </div>
+      <div align = "center">
+        <div class="btn-group-lg" role="group" aria-label="Basic radio toggle button group">
+          <input style = "appearance: none" onclick = "LoadNextQuestion('major-city_form')" type="radio" class="btn-check" name="use-average" id = "use-average-yes" value = "1" autocomplete="off" checked>
+          <label class="btn btn-outline-primary" for="use-average-yes">Yes</label>
+          <input style = "appearance: none" onclick = "LoadNextQuestion('day-avg-temp_form')" type="radio" class="btn-check" name="use-average" id = "use-average-no" value = "0" autocomplete="off">
+          <label class="btn btn-outline-primary" for="use-average-no">No</label>
+        </div>
+      </div>
+    </div>
+
+    <!--AVG_TEMP_AND_HIGH-->
+    <div class="form-group" style="display: none" id="day-avg-temp_form">
+      <div class="container-2">
+        <hr class="mt-2 mb-3"/>
+        <h2 class="centered-heading margin-bottom-32px">
+          What was the average temperature in your area today?
+        </h2>
+      </div>
+      <label for="temp">Fahrenheit ranging from -150 to 150</label>
+      <input
+        type="number"
+        class="form-control"
+        id="day-avg-temp"
+        name="day-avg-temp"
+        placeholder="E.g. 88"
+        step = "1"
+        min="-150"
+        max="150"
+        onkeydown = "if (event.key == 'Enter'){LoadNextQuestion('day-high-temp_form',parent = 'day-avg-temp');}"
+      />
+      <br />
+    </div>
+    <div class="form-group" style="display: none" id="day-high-temp_form">
+      <div class="container-2">
+        <hr class="mt-2 mb-3"/>
+        <h2 class="centered-heading margin-bottom-32px">
+          What was the high temperature in your area today?
+        </h2>
+      </div>
+      <label for="temp">Fahrenheit ranging from -150 to 150</label>
+      <input
+        type="number"
+        class="form-control"
+        id="day-high-temp"
+        name="day-high-temp"
+        placeholder="E.g. 97"
+        step = "1"
+        min="-150"
+        max="150"
+        onkeydown = "if (event.key == 'Enter'){LoadNextQuestion('save_form',parent = 'day-avg-temp');}"
+      />
+      <br />
+    </div>
+
+  <!--MAJOR_CITY-->
+  </div>
+  <div class="form-group" style="display: none" id="major-city_form">
+    <div class="container-2">
+      <hr class="mt-2 mb-3"/>
+      <h2 class="centered-heading margin-bottom-32px">
+        What is your closest major city?
+      </h2>
+    </div>
+    <input
+      type="text"
+      class="form-control"
+      id="major-city"
+      name="major-city"
+      placeholder="E.g. Long Beach"
+      onkeydown = "if (event.key == 'Enter'){LoadNextQuestion('month_form',parent = 'major-city');}"
+    />
+    <br />
+  </div>
+</div>
+<div class="form-group" style="display: none" id="month_form">
+  <div class="container-2">
+    <hr class="mt-2 mb-3"/>
+    <h2 class="centered-heading margin-bottom-32px">
+      What month is it?
+    </h2>
+  </div>
+  <div align = "center">
+    <select name="month" class = "form-select" id="month_select">
+      <option value='January'>January</option> 
+      <option value='February'>February</option> 
+      <option value='March'>March</option> 
+      <option value='April'>April</option> 
+      <option value='May'>May</option> 
+      <option value='June'>June</option> 
+      <option value='July'>July</option> 
+      <option value='August'>August</option> 
+      <option value='September'>September</option> 
+      <option value='October'>October</option> 
+      <option value='November'>November</option> 
+      <option value='December'>December</option> 
+    </select>
+  <br/>
+  <br/>
+  <button class = "btn btn-secondary" style="height:50px;width:200px" type="button" onclick="LoadNextQuestion('save_form')">Next</button>
+  <br />
+  </div>
+</div>
+
+
+
+  <!--SAVE-->
+    <div class="form-group" style="display: none" id="save_form">
+      <div class="container-2">
+        <hr class="mt-2 mb-3"/>
+        <h2 class="centered-heading margin-bottom-32px">
+          Would you like to save your data today?
+        </h2>
+      </div>
+        <div align = "center">
+          <div class="btn-group-lg" role="group" aria-label="Basic radio toggle button group">
+            <input style = "appearance: none" onclick = "LoadNextQuestion('submit_button')" type="radio" class="btn-check" name="save" id = "save-yes" value = "1" autocomplete="off" checked>
+            <label class="btn btn-outline-primary" for="save-yes">Yes</label>
+            <input style = "appearance: none" onclick = "LoadNextQuestion('submit_button')" type="radio" class="btn-check" name="save" id = "save-no" value = "0" autocomplete="off">
+            <label class="btn btn-outline-primary" for="save-no">No</label>
+          </div>
+          <button type="submit" style = "display:none" id = "submit_button" class="btn btn-primary">Done</button>
+        </div>
+      </form>
+    </div>
+
+    <div align = center>
+      <button type="button"onclick = "window.location.reload();" class="btn btn-primary">Reset</button>
+    </div>
+  </form>
+</section>
+{% endblock %}
