@@ -3,7 +3,7 @@ import pandas as pd
 import numpy as np
 import math
 
-monthdict = {'Janauary': 1,
+monthdict = {'January': 1,
              'February': 2,
              'March': 3,
              'April': 4,
