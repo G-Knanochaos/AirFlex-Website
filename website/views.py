@@ -34,12 +34,9 @@ def aircalculator():
     global recent_bill_iter
     if request.method == 'POST':
         KwH, GOT = AC_Calc.KwH(inp('BTU_rating'), inp('EER'), inp('wattage'), [inp('size'), inp('type')])
-        '''
         res_iter = AC_Calc.Price(KwH, inp('EER'), inp('hours'), inp('temp'), inp('state'), inp('use-average'),
                                  inp('major-city'), inp('month'), inp('day-avg-temp'), inp('day-high-temp'),
                                  inp('save'))
-        '''
-        res_iter = [123.0, 3, 69]
         global recent_bill_iter
         recent_bill_iter = res_iter
         if request.form.get("save") == "1":
