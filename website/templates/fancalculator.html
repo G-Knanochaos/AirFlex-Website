@@ -211,54 +211,10 @@ block style_specs %}
         </select>
       <br/>
       <br/>
-      <button type="button" style="height:50px;width:200px"  class="btn btn-secondary" onclick="LoadNextQuestion('target_form')">Next</button>
+      <button type="button" style="height:50px;width:200px"  class="btn btn-secondary" onclick="LoadNextQuestion('save_form')">Next</button>
       <br />
       </div>
       </div>
-    </div>
-    
-    <!--TARGET-->
-    <div class="form-group" style="display: none" id="target_form">
-      <hr class="mt-2 mb-3"/>
-      <div class="container-2">
-        <h2 class="centered-heading margin-bottom-32px">
-        What is your preferred indoor temperature?
-        </h2>
-      </div>
-      <label for="target-temp">Fahrenheit ranging from 0 to 100</label>
-      <input
-        type="number"
-        class="form-control"
-        id="target-temp"
-        name="target-temp"
-        placeholder="E.g. 69"
-        step = "1"
-        min="0"
-        max="100"
-        onkeydown = "if (event.key == 'Enter'){LoadNextQuestion('priority_form',parent = 'target-temp');}"
-      />
-      <br />
-    </div>
-
-    <!--PRIORITY-->
-    <div class="form-group" style="display: none" id="priority_form">
-      <hr class="mt-2 mb-3"/>
-      <div class="container-2">
-        <h2 class="centered-heading margin-bottom-32px">
-        What would you like to change about your AC usage?
-        </h2>
-      </div>
-      <div align = "center">
-        <div class="btn-group-lg" role="group" aria-label="Basic radio toggle button group">
-          <input style = "appearance: none" onclick = "LoadNextQuestion('save_form')" type="radio" class="btn-check" name="priority" id = "priority-Temperature" value = "Temperature" autocomplete="off" checked>
-          <label class="btn btn-outline-primary" for="priority-Temperature">Temperature</label>
-          <input style = "appearance: none" onclick = "LoadNextQuestion('save_form')" type="radio" class="btn-check" name="priority" id = "priority-Hours" value = "Hours" autocomplete="off" checked>
-          <label class="btn btn-outline-primary" for="priority-Hours">Hours of AC usage</label>
-          <input style = "appearance: none" onclick = "LoadNextQuestion('save_form')" type="radio" class="btn-check" name="priority" id = "priority-Both" value = "Both" autocomplete="off" checked>
-          <label class="btn btn-outline-primary" for="priority-Both">Both</label>
-        </div>
-      </div>
-      <br />
     </div>
 
     <!--SAVE-->

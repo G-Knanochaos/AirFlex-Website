@@ -409,7 +409,7 @@ block style_specs %}
         step = "1"
         min="-150"
         max="150"
-        onkeydown = "if (event.key == 'Enter'){LoadNextQuestion('save_form',parent = 'day-avg-temp');}"
+        onkeydown = "if (event.key == 'Enter'){LoadNextQuestion('goal_price_form',parent = 'day-avg-temp');}"
       />
       <br />
     </div>
@@ -458,11 +458,52 @@ block style_specs %}
     </select>
   <br/>
   <br/>
-  <button class = "btn btn-secondary" style="height:50px;width:200px" type="button" onclick="LoadNextQuestion('save_form')">Next</button>
+  <button class = "btn btn-secondary" style="height:50px;width:200px" type="button" onclick="LoadNextQuestion('goal_price_form')">Next</button>
   <br />
   </div>
 </div>
 
+<!--Preferred Temperature-->
+<div class="form-group" style="display: none" id="goal_price_form">
+  <hr class="mt-2 mb-3"/>
+  <div class="container-2">
+    <h2 class="centered-heading margin-bottom-32px">
+    How much would you like to spend on your AC every month?
+    </h2>
+  </div>
+  <label for="temp">Dollars</label>
+      <input
+        type="number"
+        class="form-control"
+        id="goal_price"
+        name="goal_price"
+        placeholder="E.g. 150"
+        step = "1"
+        onkeydown = "if (event.key == 'Enter'){LoadNextQuestion('priority_form',parent = 'goal_price');}"
+      />
+  <br />
+</div>
+
+<!--Priority-->
+<div class="form-group" style="display: none" id="priority_form">
+  <hr class="mt-2 mb-3"/>
+  <div class="container-2">
+    <h2 class="centered-heading margin-bottom-32px">
+    What would you like to change about your AC usage?
+    </h2>
+  </div>
+  <div align = "center">
+    <div class="btn-group-lg" role="group" aria-label="Basic radio toggle button group">
+      <input style = "appearance: none" onclick = "LoadNextQuestion('save_form')" type="radio" class="btn-check" name="priority" id = "priority-Temperature" value = "Temperature" autocomplete="off" checked>
+      <label class="btn btn-outline-primary" for="priority-Temperature">Temperature</label>
+      <input style = "appearance: none" onclick = "LoadNextQuestion('save_form')" type="radio" class="btn-check" name="priority" id = "priority-Hours" value = "Hours" autocomplete="off" checked>
+      <label class="btn btn-outline-primary" for="priority-Hours">Hours of AC usage</label>
+      <input style = "appearance: none" onclick = "LoadNextQuestion('save_form')" type="radio" class="btn-check" name="priority" id = "priority-Both" value = "Both" autocomplete="off" checked>
+      <label class="btn btn-outline-primary" for="priority-Both">Both</label>
+    </div>
+  </div>
+  <br />
+</div>
 
 
   <!--SAVE-->
