@@ -51,25 +51,20 @@ def csv_loc(csv, month, city, err=None):
     return res
 
 
-def Price(kwh, EER, hours, temp, state, use_csv, city, month, avg_, high, save):
+def Price(kwh, EER, hours, temp, state, city, month, avg_, high, save):
     with open('website/Backend_Scripts/AC_Data/AC_Cost_Data.csv', 'rb') as ACV:
         with open('website/Backend_Scripts/AC_Data/WBC.csv', 'rb') as WV:
             AC_csv = pd.read_csv(ACV)
             W_csv = pd.read_csv(WV)
             W_csv['Station.City'] = W_csv['Station.City'].str.lower()
-            if use_csv:
-                avg_max = csv_loc(W_csv, monthdict[month], city)
-                avgs = [avg_max['Data.Temperature.Avg Temp'].mean(), avg_max['Data.Temperature.Max Temp'].mean()]
-                avg = (avgs[0] + (avgs[1] * 5)) / 6
-            elif not use_csv:
-                avgs = [avg_, high]
-                avg = ((avgs[0] + (avgs[1] * 5))) / 6
+            avgs = [avg_, high]
+            avg = ((avgs[0] + (avgs[1] * 5))) / 6
             AC_csv['State'] = AC_csv['State'].str.lower()
             res = float(hours) * float(
                 AC_csv.loc[AC_csv['Dchange'] == int(avg - temp), 'Dmult'].values.flatten()[0]) * float(
                 AC_csv.loc[AC_csv['State'].str.lower() == state.lower(), 'CostKwh'].values.flatten()[0]) * float(
                 AC_csv.loc[AC_csv["EER"] == float(EER), "Emult"].values.flatten()[0]) * float(kwh) / 100
-    return [res, hours, temp, avg]
+    return [round(res, 2), hours, temp, avg]
 
 
 def sugg_temp(cost, hours, Dchange, avg, target, priority):
