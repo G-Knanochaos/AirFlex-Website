@@ -40,6 +40,10 @@ def aircalculator():
                                  inp('save'))
         global recent_bill_iter
         recent_bill_iter = res_iter
+        sugg = AC_calc.sugg_temp(res_iter[0], res_iter[1], res_iter[res_iter[3] - res_iter[2]], res_iter[3],
+                                 inp('goal_price'),
+                                 inp('priority'))
+        sugg_hours, sugg_temp = sugg[0], sugg[1]
         if request.form.get("save") == "1":
             new_ACdatum = ACdatum(hours=res_iter[1],
                                   temp=res_iter[2],
@@ -50,7 +54,8 @@ def aircalculator():
             return redirect(url_for("views.actracker"))  # if user wants to save data, redirected to actracker page
         else:
             return render_template("aircalculator.html", user=current_user, display=1,
-                                   results=res_iter)  # if user does not want to save data, shows temporary results div
+                                   results=[res_iter[0], sugg_hours,
+                                            sugg_temp])  # if user does not want to save data, shows temporary results div
     return render_template("aircalculator.html", user=current_user, display=0)
 
 
