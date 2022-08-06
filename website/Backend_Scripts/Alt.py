@@ -3,7 +3,7 @@ from .AC_Calc import input_request as inp
 
 
 def fan_price(state, type, watts, hours):
-    AC_csv = pd.read_csv('website/static/AC_Data/AC_Data/AC_Cost_Data.csv')
+    AC_csv = pd.read_csv('website/static/AC_Data/AC_Cost_Data.csv')
     filt = (AC_csv['Ftype'].str.lower() == type)
     if inp(type) and not inp(watts):
         watts = AC_csv.loc[filt, 'Fwatts'].values.flatten()
