@@ -10,9 +10,10 @@ block style_specs %}
 {% if display == 1 %}
 <div align = "center" class="section cc-home-wrap">
   <section class="features-list wf-section">
-    <div style = "border: 10px outset rgb(89, 155, 255); border-radius: 10px; background-color: rgb(89, 155, 255)">
+    <div style = "border: 10px outset rgb(89, 155, 255); border-radius: 10px; background-color: rgb(89, 155, 255)" align = "center">
         <h1 class="heading-3">Your results:</h1>
-        <ul role="list">
+        <p>Through these changes, you will reach your AC budget goal.</p>
+        <ul role="list" style = "text-align: center">
           <li class="features-block-two">
             <p class="paragraph">
               - On an average day you spend {{results[0]}} dollars on air conditioning...
@@ -25,7 +26,7 @@ block style_specs %}
           </li>
           <li class="features-block-two">
             <p class="paragraph-3">
-              - And you should increase AC temp usage to {{results[1]}} degrees...
+              - And you should decrease your AC temperature by {{results[2]}} degrees...
             </p>
           </li>
         </ul>
