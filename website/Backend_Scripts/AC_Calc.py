@@ -71,13 +71,13 @@ def sugg_temp(cost, hours, Dchange, avg, target, priority):
     with open('website/Backend_Scripts/AC_Data/AC_Cost_Data.csv', 'rb') as ACV:
         AC_csv = pd.read_csv(ACV)
         goal = (target / (cost * 30))
-        return [False, False, avg] if goal > 1 else [math.floor((goal * hours) * 100) / 100, Dchange,
-                                                     avg] if priority == 'temperature' else [hours, abs((np.log(
+        return [False, False, avg] if goal > 1 else [math.floor((goal * hours) * 100) / 100, 0,
+                                                     avg] if priority == 'Hours' else [hours, abs((np.log(
             AC_csv.loc[AC_csv['Dchange'] == math.floor(Dchange), 'Dmult'].values.flatten()[0] * goal) / np.log(
             1.04)) + 7),
-                                                                                             avg] if priority == 'hours' else [
+                                                                                             avg] if priority == 'Temperature' else [
             math.floor((round(math.sqrt(goal), 5) * hours) * 100) / 100, abs((np.log(
                 AC_csv.loc[AC_csv['Dchange'] == math.floor(Dchange), 'Dmult'].values.flatten()[0] * round(
                     math.sqrt(goal),
                     5)) / np.log(
-                1.04)) + 7), avg] if priority == 'both' else ['Error', 'Error', avg]
+                1.04)) + 7), avg] if priority == 'Both' else ['Error', 'Error', avg]
