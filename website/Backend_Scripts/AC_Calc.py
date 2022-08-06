@@ -27,7 +27,7 @@ def input_request(ques):
 
 
 def conversion(val, conversion):
-    if not val:
+    if not val or val == '':
         return False
     return val * conversion
 
@@ -38,7 +38,7 @@ def KwH(BTU, watts, type, size):
         return [conversion(BTU, 1 / 12000), None]
     if conversion(watts, 1 / 1000):
         return [conversion(watts, 1 / 1000), None]
-    return pd.DataFrame(AC_csv.loc[(AC_csv['Type'] == type) & (AC_csv['Size'] == size), ['KwhPH', 'GOT']])
+    return AC_csv.loc[(AC_csv['Type'] == type) & (AC_csv['Size'] == size), ['KwhPH', 'GOT']].values.flatten()
 
 
 def csv_loc(csv, month, city, err=None):
@@ -75,7 +75,7 @@ def sugg_temp(cost, hours, Dchange, avg, target, priority):
                                                      avg] if priority == 'Hours' else [hours, abs((np.log(
             AC_csv.loc[AC_csv['Dchange'] == math.floor(Dchange), 'Dmult'].values.flatten()[0] * goal) / np.log(
             1.04)) + 7),
-                                                                                             avg] if priority == 'Temperature' else [
+                                                                                       avg] if priority == 'Temperature' else [
             math.floor((round(math.sqrt(goal), 5) * hours) * 100) / 100, abs((np.log(
                 AC_csv.loc[AC_csv['Dchange'] == math.floor(Dchange), 'Dmult'].values.flatten()[0] * round(
                     math.sqrt(goal),
