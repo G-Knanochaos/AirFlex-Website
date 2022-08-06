@@ -40,7 +40,7 @@ def aircalculator():
                                  inp('save'))
         global recent_bill_iter
         recent_bill_iter = res_iter
-        sugg = AC_calc.sugg_temp(res_iter[0], res_iter[1], res_iter[res_iter[3] - res_iter[2]], res_iter[3],
+        sugg = AC_Calc.sugg_temp(res_iter[0], res_iter[1], res_iter[3] - res_iter[2], res_iter[3],
                                  inp('goal_price'),
                                  inp('priority'))
         sugg_hours, sugg_temp = sugg[0], sugg[1]
@@ -55,7 +55,7 @@ def aircalculator():
         else:
             return render_template("aircalculator.html", user=current_user, display=1,
                                    results=[res_iter[0], sugg_hours,
-                                            sugg_temp])  # if user does not want to save data, shows temporary results div
+                                            round(sugg_temp, 2)])  # if user does not want to save data, shows temporary results div
     return render_template("aircalculator.html", user=current_user, display=0)
 
 
@@ -90,7 +90,7 @@ def actracker():
                           'AC Hours, Temperature, and Bill')
         pie = pie_chart(current_user.ACdatum.estimated_bill, current_user.FanData.estimated_bill,
                         graph_name='AC cost vs Fan Cost')
-        scatter = scatter(current_user.ACdatum.hours, current_user.ACdatum.temp)
+        scatter = AC_Calc.scatter(current_user.ACdatum.hours, current_user.ACdatum.temp)
         plot.savefig('website/static/plot.png')
         pie.savefig('website/static/pie.png')
         scatter.savefig('website/scatter.png')
