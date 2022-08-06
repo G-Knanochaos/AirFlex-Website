@@ -33,7 +33,7 @@ def conversion(val, conversion):
 
 
 def KwH(BTU, watts, type, size):
-    AC_csv = pd.read_csv('website/Backend_Scripts/AC_Data/AC_Cost_Data.csv')
+    AC_csv = pd.read_csv('website/static/AC_Data/AC_Cost_Data.csv')
     if conversion(BTU, 1 / 12000):
         return [conversion(BTU, 1 / 12000), None]
     if conversion(watts, 1 / 1000):
@@ -52,8 +52,8 @@ def csv_loc(csv, month, city, err=None):
 
 
 def Price(kwh, EER, hours, temp, state, city, month, avg_, high, save):
-    with open('website/Backend_Scripts/AC_Data/AC_Cost_Data.csv', 'rb') as ACV:
-        with open('website/Backend_Scripts/AC_Data/WBC.csv', 'rb') as WV:
+    with open('website/static/AC_Data/AC_Cost_Data.csv', 'rb') as ACV:
+        with open('website/static/AC_Data/WBC.csv', 'rb') as WV:
             AC_csv = pd.read_csv(ACV)
             W_csv = pd.read_csv(WV)
             W_csv['Station.City'] = W_csv['Station.City'].str.lower()
@@ -68,7 +68,7 @@ def Price(kwh, EER, hours, temp, state, city, month, avg_, high, save):
 
 
 def sugg_temp(cost, hours, Dchange, avg, target, priority):
-    with open('website/Backend_Scripts/AC_Data/AC_Cost_Data.csv', 'rb') as ACV:
+    with open('website/static/AC_Data/AC_Cost_Data.csv', 'rb') as ACV:
         AC_csv = pd.read_csv(ACV)
         goal = (target / (cost * 30))
         return [False, False, avg] if goal > 1 else [math.floor((goal * hours) * 100) / 100, 0,

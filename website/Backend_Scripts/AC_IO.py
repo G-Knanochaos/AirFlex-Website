@@ -3,7 +3,7 @@ import pandas as pd
 import numpy as np
 import math
 
-AC_csv = pd.read_csv('AC data/AC_Cost_Data.csv')
+AC_csv = pd.read_csv('website/static/AC_Data//AC_Cost_Data.csv')
 
 
 def rep_input(inp, ans=None, int_only=False, rep=False, nns=False):
