@@ -1,0 +1,40 @@
+{% extends "base2.html" %} {% block title %}Air Calculator{% endblock %} {%
+block style_specs %}
+<link
+  href="https://uploads-ssl.webflow.com/62e8b794c129c6d31dfb3e87/css/g-ks-dandy-site.webflow.19a544437.css"
+  rel="stylesheet"
+  type="text/css"
+/>
+{% endblock %} {% block content %}
+
+
+<section class="hero-heading-center wf-section">
+  <!--Next Question Request Script-->
+  <br />
+  <div align = "center">
+    <h1>Your AC Usage Progress</h1>
+    <p>Discover how much money you've saved and visually see your progress over time.</p>
+  </div>
+
+  {% if acdata_length == 0 %}
+  <hr class="mt-2 mb-3"/>
+
+  <div align = "center">
+    <h3>It looks like you don't have any data yet! Input your first AC usage log below.</h3>
+    <a
+      href="aircalculator"
+      class="button cc-jumbo-button cc-jumbo-white w-inline-block"
+      ><div>Calculate your AC usage</div></a
+    >
+  </div>
+
+  {% else %} 
+  <hr class="mt-2 mb-3"/>
+  
+  <!--Graph Template-->
+  <div align="center" style = "border: 10px outset rgb(89, 155, 255); border-radius: 10px">
+    <img src="static/AC Hours and Temperature.png">
+  </div>
+  {% endif %}
+</section>
+{% endblock %}
