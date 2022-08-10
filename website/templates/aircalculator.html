@@ -1,5 +1,5 @@
 {% extends "base2.html" %} {% block title %}Air Calculator{% endblock %} {%
-block style_specs %}
+block head_specs %}
 <link
   href="https://uploads-ssl.webflow.com/62e8b794c129c6d31dfb3e87/css/g-ks-dandy-site.webflow.19a544437.css"
   rel="stylesheet"
@@ -8,25 +8,24 @@ block style_specs %}
 {% endblock %} {% block content %}
 
 {% if display == 1 %}
-<div align = "center" class="section cc-home-wrap">
+<div class="section cc-home-wrap">
   <section class="features-list wf-section">
-    <div style = "border: 10px outset rgb(89, 155, 255); border-radius: 10px; background-color: rgb(89, 155, 255)" align = "center">
+    <div style = "text-align: center; border: 10px outset rgb(89, 155, 255); border-radius: 10px; background-color: rgb(89, 155, 255)">
         <h1 class="heading-3">Your results:</h1>
-        <p>Through these changes, you will reach your AC budget goal.</p>
         <ul role="list" style = "text-align: center">
-          <li class="features-block-two">
+          <li>
             <p class="paragraph">
-              - On an average day you spend {{results[0]}} dollars on air conditioning...
+              On an average day you spend {{results[0]}} dollars on air conditioning...
             </p>
           </li>
-          <li class="features-block-two">
+          <li>
             <p class="paragraph-2">
-              - Based on our calculations you should reduce your daily hourly usage to {{results[1]}} hours to save electricity...
+              Based on our calculations you should reduce your daily hourly usage to {{results[1]}} hours to reach AC budget goals...
             </p>
           </li>
-          <li class="features-block-two">
+          <li>
             <p class="paragraph-3">
-              - And you should decrease your AC temperature by {{results[2]}} degrees...
+              And you should increase your AC temperature by {{results[2]}} degrees...
             </p>
           </li>
         </ul>
@@ -47,7 +46,7 @@ block style_specs %}
           </p>
         </div>
         <ul role="list" class="features-right w-list-unstyled">
-          <li class="features-block-two">
+          <li>
             <img
               src="https://uploads-ssl.webflow.com/62434fa732124a0fb112aab4/62434fa732124a28a812aad9_placeholder%202.svg"
               loading="lazy"
@@ -59,7 +58,7 @@ block style_specs %}
               money
             </p>
           </li>
-          <li class="features-block-two">
+          <li>
             <img
               src="https://uploads-ssl.webflow.com/62434fa732124a0fb112aab4/62434fa732124ace5e12aae4_portfolio%204%20-%20wide.svg"
               loading="lazy"
@@ -70,7 +69,7 @@ block style_specs %}
               Keep track of your progress, and slowly increase savings over time
             </p>
           </li>
-          <li class="features-block-two">
+          <li>
             <img
               src="https://uploads-ssl.webflow.com/62434fa732124a0fb112aab4/62434fa732124a55c612aae2_portfolio%202%20-%20wide.svg"
               loading="lazy"
@@ -93,7 +92,7 @@ block style_specs %}
   <br />
   
   <!--Form scripts-->
-  <script>
+  <script type = "text/javascript">
     function LoadNextQuestion(QuestionID,parent = null) {
       let el = document.getElementById(QuestionID);
       if (parent == null){
@@ -172,44 +171,36 @@ block style_specs %}
           What is your AC&#x27;s size?
         </h2>
       </div>
-      <input type="radio" id="size-small" name="size" value="small" />
-      <label for="size-small">Small</label><br />
-      <input type="radio" id="size-medium" name="size" value="medium" />
-      <label for="size-medium">Medium</label><br />
-      <input
-        type="radio"
-        id="size-large"
-        name="size"
-        value="large"
-      />
-      <label for="size-large">Large</label>
-      <br />
-      <button type="button" class = "btn btn-secondary" onclick="LoadNextQuestion('type-form')">Next</button>
-      <br />
+      <div align = "center">
+        <div class="btn-group-lg" role="group" aria-label="Basic radio toggle button group">
+          <input style = "appearance: none" onclick = "LoadNextQuestion('type_form')" type="radio" class="btn-check" name="size" id = "size-small" value = "small" autocomplete="off" checked>
+          <label class="btn btn-outline-primary" for="size-small">Small</label>
+          <input style = "appearance: none" onclick = "LoadNextQuestion('type_form')" type="radio" class="btn-check" name="size" id = "size-medium" value = "medium" autocomplete="off" checked>
+          <label class="btn btn-outline-primary" for="size-medium">Medium</label>
+          <input style = "appearance: none" onclick = "LoadNextQuestion('type_form')" type="radio" class="btn-check" name="size" id = "size-large" value = "large" autocomplete="off" checked>
+          <label class="btn btn-outline-primary" for="size-large">Large</label>
+        </div>
+      </div>
     </div>
 
     <!--TYPE-->
-    <div class="form-group" style="display: none" id="type-form">
+    <div class="form-group" style="display: none" id="type_form">
       <div class="container-2">
         <hr class="mt-2 mb-3"/>
         <h2 class="centered-heading margin-bottom-32px">
           What is your AC&#x27;s type?
         </h2>
       </div>
-      <input type="radio" id="type-central" name="type" value="central" />
-      <label for="type-central">Central</label><br />
-      <input type="radio" id="type-window" name="type" value="medium" />
-      <label for="type-window">Window</label><br />
-      <input
-        type="radio"
-        id="type-mini_split"
-        name="type"
-        value="mini_split"
-      />
-      <label for="type-mini_split">Mini Split</label>
-      <br />
-      <button type="button" class = "btn btn-secondary" onclick="LoadNextQuestion('EER_form')">Next</button>
-      <br />
+      <div align = "center">
+        <div class="btn-group-lg" role="group" aria-label="Basic radio toggle button group">
+          <input style = "appearance: none" onclick = "LoadNextQuestion('EER_form')" type="radio" class="btn-check" name="type" id = "type-central" value = "central" autocomplete="off" checked>
+          <label class="btn btn-outline-primary" for="type-central">Central</label>
+          <input style = "appearance: none" onclick = "LoadNextQuestion('EER_form')" type="radio" class="btn-check" name="type" id = "type-window" value = "window unit" autocomplete="off" checked>
+          <label class="btn btn-outline-primary" for="type-window">Window</label>
+          <input style = "appearance: none" onclick = "LoadNextQuestion('EER_form')" type="radio" class="btn-check" name="type" id = "type-mini_split" value = "mini split" autocomplete="off" checked>
+          <label class="btn btn-outline-primary" for="type-mini_split">Mini-split</label>
+        </div>
+      </div>
     </div>
 
     <!--EER-->

@@ -1,26 +1,33 @@
 {% extends "base2.html" %} {% block title %}Air Calculator{% endblock %} {%
-block style_specs %}
+block head_specs %}
 <link
   href="https://uploads-ssl.webflow.com/62e8b794c129c6d31dfb3e87/css/g-ks-dandy-site.webflow.19a544437.css"
   rel="stylesheet"
   type="text/css"
 />
+<!--Google graph script-->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 {% endblock %} {% block content %}
-
 
 <section class="hero-heading-center wf-section">
   <!--Next Question Request Script-->
   <br />
-  <div align = "center">
+  <div align="center">
     <h1>Your AC Usage Progress</h1>
-    <p>Discover how much money you've saved and visually see your progress over time.</p>
+    <p>
+      Discover how much money you've saved and visually see your progress over
+      time.
+    </p>
   </div>
+  <hr class="mt-2 mb-3" />
+</section>
+  {% if not show_graphs %}
 
-  {% if acdata_length == 0 %}
-  <hr class="mt-2 mb-3"/>
-
-  <div align = "center">
-    <h3>It looks like you don't have any data yet! Input your first AC usage log below.</h3>
+  <div align="center">
+    <h3>
+      It looks like you don't have any data yet! Input your first AC usage log
+      below.
+    </h3>
     <a
       href="aircalculator"
       class="button cc-jumbo-button cc-jumbo-white w-inline-block"
@@ -28,12 +35,109 @@ block style_specs %}
     >
   </div>
 
-  {% else %} 
-  <hr class="mt-2 mb-3"/>
-  
+  {% else %}
   <!--Graph Template-->
-  <div align="center" style = "border: 10px outset rgb(89, 155, 255); border-radius: 10px">
-    <img src="static/AC Hours and Temperature.png">
+  <div align = "center" style = "margin: 0 2%">
+    <h1 style = "font-weight: bold; color: rgb(0,68,19)">Money Saved</h1>
+    <h5>A downtrend means Airflex is helping you save money<h5>
+    <div style=" border: 10px outset rgb(89, 155, 255); border-radius: 10px">
+      <canvas id="chart3"></canvas>
+      <script>
+        var ctx = document.getElementById("chart3").getContext("2d");
+        var lineChart = new Chart(ctx,{
+          type: "line",
+          data: {
+            labels: {{ chart1[0] | safe }},
+            datasets: [
+            {
+            label: "Dollars spent",
+            data: {{ chart1[3] | safe }},
+            fill: true,
+            backgroundColor: "rgb(12,237,110,0.7)",
+            borderColor: "rgb(12,237,110)",
+            }
+                      ]
+          },
+          options: {
+            responsive: true,
+            scales: {
+              y: {
+                suggestedMin: 0
+              }
+            }
+          }
+        });
+      </script>
+      </div>
+  </div>
+
+  </br>
+  <hr class="mt-2 mb-3" />
+  <div align = "center" style = "margin: 0 2%">
+  <h1 style = "font-weight: bold; color: rgb(0, 18, 68)">AC temperature and hours</h1>
+  <h5>A downtrend means Airflex is making you more conscious of the your AC usage and helping you reduce your overall expenditure</h5>
+  <div style = " padding: 2%; display: flex; flex-direction:row; justify-content: space-between">
+    <div style="width: 49%; border: 10px outset rgb(89, 155, 255); border-radius: 10px">
+    <canvas id="chart1"></canvas>
+    <script>
+      var ctx = document.getElementById("chart1").getContext("2d");
+      var lineChart = new Chart(ctx,{
+        type: "line",
+        data: {
+          labels: {{ chart1[0] | safe }},
+          datasets: [
+          {
+          label: "AC temperature",
+          data: {{ chart1[1] | safe }},
+          fill: true,
+          backgroundColor: "rgb(12,186,247,0.7)",
+          borderColor: "rgb(12,186,247)",
+          },
+                    ]
+        },
+        options: {
+          responsive: true,
+          scales: {
+            y: {
+              suggestedMin: 0
+            }
+          }
+        }
+      });
+    </script>
+  </div>
+
+  <div style="width: 49%; border: 10px outset rgb(89, 155, 255); border-radius: 10px">
+    <canvas id="chart2" ></canvas>
+    <script>
+      var ctx = document.getElementById("chart2").getContext("2d");
+      var lineChart = new Chart(ctx,{
+        type: "line",
+        data: {
+          labels: {{ chart1[0] | safe }},
+          datasets: [
+          {
+          label: "Hours used AC daily (dollars)",
+          data: {{ chart1[2] | safe }},
+          fill: true,
+          backgroundColor: "rgb(12,119,237,0.7)",
+          borderColor: "rgb(12,119,237)",
+
+          }
+                    ]
+        },
+        options: {
+          responsive: true,
+          scales: {
+            y: {
+              suggestedMin: 0
+            }
+          }
+        }
+      });
+    </script>
+  </div>
+  </div>
   </div>
   {% endif %}
 </section>

@@ -9,9 +9,6 @@ from .Backend_Scripts.Tracker import plot_graph, scatter, pie_chart
 
 views = Blueprint('views', __name__)
 
-recent_bill_iter = []
-
-
 @views.route('')
 def default():
     return render_template("home.html", user=current_user)
@@ -34,6 +31,7 @@ def webflow():
 def aircalculator():
     global recent_bill_iter
     if request.method == 'POST':
+        #error checking:
         KwH, GOT = AC_Calc.KwH(inp('BTU_rating'), inp('wattage'), inp('type'), inp('size'))
         res_iter = AC_Calc.Price(KwH, inp('EER'), inp('hours'), inp('temp'), inp('state'),
                                  inp('major-city'), inp('month'), inp('day-avg-temp'), inp('day-high-temp'),
@@ -50,8 +48,7 @@ def aircalculator():
             return redirect(url_for("views.actracker"))  # if user wants to save data, redirected to actracker page
         else:
             return render_template("aircalculator.html", user=current_user, display=1,
-                                   results=[res_iter[0], sugg_iter[0], round(sugg_iter[1],
-                                                                             2)])  # if user does not want to save data, shows temporary results div
+                                   results=[res_iter[0], sugg_iter[0], round(sugg_iter[1],2)])  # if user does not want to save data, shows temporary results div
     return render_template("aircalculator.html", user=current_user, display=0)
 
 
@@ -75,17 +72,16 @@ def is_empty(iter):
     return False if len(iter) > 0 else True
 
 
-@views.route('actracker', methods=['GET', 'POST'])
+@views.route('actracker')
 @login_required
 def actracker():
-    if request.method == 'Post':
-        yvals = [current_user.ACdatum.hours, current_user.ACdatum.temp, current_user.ACdatum.estimated_bill]
-        y_vals = [x for x in yvals if not is_empty(x)]
-        plot = plot_graph(current_user.ACdatum.date, y_vals, ['Hours', 'Temperature', 'Bill'],
-                          ['#00A36C', '#088F8F', 'b'],
-                          'AC Hours, Temperature, and Bill')
-        pie = pie_chart(current_user.ACdatum.estimated_bill, current_user.FanData.estimated_bill,
-                        graph_name='AC cost vs Fan Cost')
-        scatter = scatter(current_user.ACdatum.hours, current_user.ACdatum.temp)
-        return render_template('actracker.html', user=current_user, acdata_length=len(current_user.ACdata))
-    return render_template("actracker.html", user=current_user, acdata_length=len(current_user.ACdata))
+    line_charts = [
+        ["Entry " + str(label) for label in list(range(1,len(current_user.ACdata)+1))], #labels 
+        [int(datum.temp) for datum in current_user.ACdata], #temperature data
+        [int(datum.hours) for datum in current_user.ACdata], #hours data
+        [float(datum.estimated_bill) for datum in current_user.ACdata] #estimated bill
+    ] # line chart
+    return render_template("actracker.html", 
+    user=current_user, 
+    show_graphs = len(current_user.ACdata) > 0, 
+    chart1 = line_charts)

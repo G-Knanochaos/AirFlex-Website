@@ -74,8 +74,7 @@ def sugg_temp(cost, hours, Dchange, avg, target, priority):
         return [False, False, avg] if goal > 1 else [math.floor((goal * hours) * 100) / 100, 0,
                                                      avg] if priority == 'Hours' else [hours, abs((np.log(
             AC_csv.loc[AC_csv['Dchange'] == math.floor(Dchange), 'Dmult'].values.flatten()[0] * goal) / np.log(
-            1.04)) + 7),
-                                                                                       avg] if priority == 'Temperature' else [
+            1.04)) + 7), avg] if priority == 'Temperature' else [
             math.floor((round(math.sqrt(goal), 5) * hours) * 100) / 100, abs((np.log(
                 AC_csv.loc[AC_csv['Dchange'] == math.floor(Dchange), 'Dmult'].values.flatten()[0] * round(
                     math.sqrt(goal),

@@ -6,9 +6,9 @@ from sqlalchemy.sql import func
 
 class ACdatum(db.Model):
     id = db.Column(db.Integer, primary_key=True)  # main key that will be used to identify any saved ACdata instances
-    hours = db.Column(db.Integer())
-    temp = db.Column(db.Integer())
-    estimated_bill = db.Column(db.Integer())
+    hours = db.Column(db.Integer()) #how many hours they used theyre AC for
+    temp = db.Column(db.Integer()) #the temperature they set their ac too
+    estimated_bill = db.Column(db.Integer()) #estimated bill based on previous two factors
     date = db.Column(db.DateTime(timezone=True), default=func.now())  # func.now() returns current date and time
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))  # connects ACdata to a user
 
@@ -16,7 +16,7 @@ class ACdatum(db.Model):
 class FanData(db.Model):
     id = db.Column(db.Integer,
                    primary_key=True)  # main key that will be used to identify any saved ACdata instances
-    estimated_bill = db.Column(db.Integer())
+    estimated_bill = db.Column(db.Integer()) #how much they spend daily
     date = db.Column(db.DateTime(timezone=True), default=func.now())  # func.now() returns current date and time
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))  # connects ACdata to a user
 
