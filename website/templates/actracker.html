@@ -1,4 +1,4 @@
-{% extends "base2.html" %} {% block title %}Air Calculator{% endblock %} {%
+{% extends "base2.html" %} {% block title %}Air Tracker{% endblock %} {%
 block head_specs %}
 <link
   href="https://uploads-ssl.webflow.com/62e8b794c129c6d31dfb3e87/css/g-ks-dandy-site.webflow.19a544437.css"
@@ -21,9 +21,10 @@ block head_specs %}
   </div>
   <hr class="mt-2 mb-3" />
 </section>
-  {% if not show_graphs %}
+  {% if not (entry_count > 0) %}
 
   <div align="center">
+  </br>
     <h3>
       It looks like you don't have any data yet! Input your first AC usage log
       below.
@@ -33,49 +34,80 @@ block head_specs %}
       class="button cc-jumbo-button cc-jumbo-white w-inline-block"
       ><div>Calculate your AC usage</div></a
     >
+  <hr class="mt-2 mb-3" />
   </div>
 
   {% else %}
   <!--Graph Template-->
   <div align = "center" style = "margin: 0 2%">
-    <h1 style = "font-weight: bold; color: rgb(0,68,19)">Money Saved</h1>
-    <h5>A downtrend means Airflex is helping you save money<h5>
-    <div style=" border: 10px outset rgb(89, 155, 255); border-radius: 10px">
-      <canvas id="chart3"></canvas>
-      <script>
-        var ctx = document.getElementById("chart3").getContext("2d");
-        var lineChart = new Chart(ctx,{
-          type: "line",
-          data: {
-            labels: {{ chart1[0] | safe }},
-            datasets: [
-            {
-            label: "Dollars spent",
-            data: {{ chart1[3] | safe }},
-            fill: true,
-            backgroundColor: "rgb(12,237,110,0.7)",
-            borderColor: "rgb(12,237,110)",
-            }
-                      ]
-          },
-          options: {
-            responsive: true,
-            scales: {
-              y: {
-                suggestedMin: 0
-              }
-            }
-          }
-        });
-      </script>
+    <div style = "padding: 2%; display: flex; flex-direction:row; justify-content: space-between">
+      <div style="overflow-y:scroll; width: 34%; display: flex; flex-direction:column; justify-content: space-evenly; border: 10px outset rgb(89, 155, 255); border-radius: 10px">
+        {% if user.totalMoneySaved != None %}
+        <div>
+          <hr class="mt-2 mb-3" />
+            <h2>You have saved a total of </h2>
+            <h1 style = "font-weight: bold; color: rgb(0, 139, 39)">${{user.totalMoneySaved}}</h1>
+            <h2>with Airflex...</h2>
+          <hr class="mt-2 mb-3" />
+        </div>
+        {% endif %}
+        <div style = "padding: 2%; height:64%">
+          <hr class="mt-2 mb-3" />
+          <h2 style = "font-weight: bold">Latest Results:</h2>
+          <h4>- Currently, you spend about <b>${{ chart1[3][-1]  * 30}}</b> on your AC monthly</h4>
+          <h4>- To reach budget goals, you should decrease daily usage time to <b>{{ chart1[5][-1]}} hours</b></h4>
+          <h4>- And you should increase set temperature to <b>{{ chart1[4][-1]}} degrees</b></h4>
+          <hr class="mt-2 mb-3" />
+
+        </div>
       </div>
+      <div style="width: 64%;">
+        <h1 style = "font-weight: bold; color: rgb(0,68,19)">Money spent on AC overtime</h1>
+        <h5>A downtrend means Airflex is helping you save money</h5>
+        {% if 5 > entry_count %}
+        <p>Put in a few more entries in the coming days to see progress</p>
+        {% endif %}
+        <div style="border: 10px outset rgb(89, 155, 255); border-radius: 10px">
+              <canvas id="chart3"></canvas>
+              <script>
+                var ctx = document.getElementById("chart3").getContext("2d");
+                var lineChart = new Chart(ctx,{
+                  type: "line",
+                  data: {
+                    labels: {{ chart1[0] | safe }},
+                    datasets: [
+                    {
+                    label: "Dollars spent on entry day",
+                    data: {{ chart1[3] | safe }},
+                    fill: true,
+                    backgroundColor: "rgb(12,237,110,0.7)",
+                    borderColor: "rgb(12,237,110)",
+                    }
+                              ]
+                  },
+                  options: {
+                    responsive: true,
+                    scales: {
+                      y: {
+                        suggestedMin: 0
+                      }
+                    }
+                  }
+                });
+              </script>
+            </div>
+      </div>
+    </div>
   </div>
 
   </br>
   <hr class="mt-2 mb-3" />
   <div align = "center" style = "margin: 0 2%">
   <h1 style = "font-weight: bold; color: rgb(0, 18, 68)">AC temperature and hours</h1>
-  <h5>A downtrend means Airflex is making you more conscious of the your AC usage and helping you reduce your overall expenditure</h5>
+  <h5>We want to increase temperature and decrease hours. Converging lines means you have reached your AC budget goal.</h5>
+  {% if 5 > entry_count %}
+  <p>Put in a few more entries in the coming days to see progress</p>
+  {% endif %}
   <div style = " padding: 2%; display: flex; flex-direction:row; justify-content: space-between">
     <div style="width: 49%; border: 10px outset rgb(89, 155, 255); border-radius: 10px">
     <canvas id="chart1"></canvas>
@@ -93,6 +125,13 @@ block head_specs %}
           backgroundColor: "rgb(12,186,247,0.7)",
           borderColor: "rgb(12,186,247)",
           },
+          {
+          label: "Suggested AC temperature to reach budget goals",
+          data: {{ chart1[4] | safe }},
+          fill: true,
+          backgroundColor: "rgb(12,186,140,0.7)",
+          borderColor: "rgb(12,186,140)",
+          }
                     ]
         },
         options: {
@@ -117,12 +156,18 @@ block head_specs %}
           labels: {{ chart1[0] | safe }},
           datasets: [
           {
-          label: "Hours used AC daily (dollars)",
+          label: "Hours used AC daily",
           data: {{ chart1[2] | safe }},
           fill: true,
           backgroundColor: "rgb(12,119,237,0.7)",
           borderColor: "rgb(12,119,237)",
-
+          },
+          {
+          label: "Suggested hour use to reach budget goals",
+          data: {{ chart1[5] | safe }},
+          fill: true,
+          backgroundColor: " rgb(12,119,140,0.7)",
+          borderColor: "rgb(12,119,140)",
           }
                     ]
         },

@@ -1,4 +1,4 @@
-{% extends "base2.html" %} {% block title %}Air Calculator{% endblock %} {%
+{% extends "base2.html" %} {% block title %}Fan Calculator{% endblock %} {%
 block head_specs %}
 <link
   href="https://uploads-ssl.webflow.com/62e8b794c129c6d31dfb3e87/css/g-ks-dandy-site.webflow.19a544437.css"
@@ -11,7 +11,9 @@ block head_specs %}
 <div align = "center" class="section cc-home-wrap">
   <section class="features-list wf-section">
     <div style = "border: 10px outset rgb(89, 155, 255); border-radius: 10px; background-color: rgb(89, 155, 255)">
-        <h3 class = "heading-3">Results: Your spend an average of {{bill}} cents on this fan everyday. Compared to how much you spend on your AC, you are saving a lot of money with this fan</h3>
+        <h2 style = "font-weight: bold">Your Results:</h2>
+        <h2>Your spend an average of <b>{{bill}} cents daily</b> on this fan and <b>{{bill*30}} cents monthly</b>.</h2>
+        <h4>Compared to how much you spend on your AC, you are saving a lot of money with this fan</h4>
     </div>
   </section>
 </div>

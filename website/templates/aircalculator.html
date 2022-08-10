@@ -11,24 +11,12 @@ block head_specs %}
 <div class="section cc-home-wrap">
   <section class="features-list wf-section">
     <div style = "text-align: center; border: 10px outset rgb(89, 155, 255); border-radius: 10px; background-color: rgb(89, 155, 255)">
-        <h1 class="heading-3">Your results:</h1>
-        <ul role="list" style = "text-align: center">
-          <li>
-            <p class="paragraph">
-              On an average day you spend {{results[0]}} dollars on air conditioning...
-            </p>
-          </li>
-          <li>
-            <p class="paragraph-2">
-              Based on our calculations you should reduce your daily hourly usage to {{results[1]}} hours to reach AC budget goals...
-            </p>
-          </li>
-          <li>
-            <p class="paragraph-3">
-              And you should increase your AC temperature by {{results[2]}} degrees...
-            </p>
-          </li>
-        </ul>
+        <hr class="mt-2 mb-3" />
+          <h2 style = "font-weight: bold">Your Results:</h2>
+          <h4>- Currently, you spend about <b>${{results[0] * 30}}</b> on your AC monthly and <b>${{results[0]}}</b> on your AC daily.</h4>
+          <h4>- To reach budget goals, you should decrease daily usage time to <b>{{results[1]}} hours.</b></h4>
+          <h4>- And you should increase set temperature to <b>{{results[2]}} degrees.</b></h4>
+        <hr class="mt-2 mb-3" />
       </div>
   </section>
 </div>
@@ -46,7 +34,7 @@ block head_specs %}
           </p>
         </div>
         <ul role="list" class="features-right w-list-unstyled">
-          <li>
+          <li class="features-block-two">
             <img
               src="https://uploads-ssl.webflow.com/62434fa732124a0fb112aab4/62434fa732124a28a812aad9_placeholder%202.svg"
               loading="lazy"
@@ -58,7 +46,7 @@ block head_specs %}
               money
             </p>
           </li>
-          <li>
+          <li class="features-block-two">
             <img
               src="https://uploads-ssl.webflow.com/62434fa732124a0fb112aab4/62434fa732124ace5e12aae4_portfolio%204%20-%20wide.svg"
               loading="lazy"
@@ -69,7 +57,7 @@ block head_specs %}
               Keep track of your progress, and slowly increase savings over time
             </p>
           </li>
-          <li>
+          <li class="features-block-two">
             <img
               src="https://uploads-ssl.webflow.com/62434fa732124a0fb112aab4/62434fa732124a55c612aae2_portfolio%202%20-%20wide.svg"
               loading="lazy"
