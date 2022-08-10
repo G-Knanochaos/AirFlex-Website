@@ -4,7 +4,7 @@ Theme : Beat the heat
 ## HOW TO INITIATE THE WEBSITE
 -Step 1: Make sure to install all requirements (in the requirements.txt file) <br />
 -Step 2: Run the main.py file <br />
--Step 3: Go to http://127.0.0.1:5000 <br />
+-Step 3: Go to http://127.0.0.1:7000/ <br />
 
 ## FUNCTIONALITY:
 -Create accounts using an email and a password. <br />
