@@ -21,3 +21,12 @@ AirFlex was a challenge to construct. Stepping out of data science and back end 
 
 ## LATEST UPDATE:
 -Added 'personal settings' section in 'AC Usage Progress' page
+
+## FUTURE UPDATES/FIXES:
+-Fix Radio toggle text overlay bug
+-Make 'AC Usage Setting' graph divs stack vertically on smaller screens
+-Make more extensive personal settings (add AC BTU, EER, size, and type info)
+-Make about page
+-Add relevant images to calculator features lists
+-Add github package hosting
+
