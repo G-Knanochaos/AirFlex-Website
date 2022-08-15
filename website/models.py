@@ -28,6 +28,9 @@ class User(db.Model, UserMixin):
     email = db.Column(db.String(100), unique=True)
     password = db.Column(db.String(20))
     username = db.Column(db.String(50), unique=True)
+    state = db.Column(db.String)
+    priority = db.Column(db.String)
+    budget = db.Column(db.Integer())
     ACdata = db.relationship('ACdatum')  # reference to ACdatum from User #ACdata is list of ACdatum
     fanData = db.relationship('FanData')
     totalMoneySaved = db.Column(db.Integer(), server_default="0")

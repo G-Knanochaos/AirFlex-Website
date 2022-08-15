@@ -59,10 +59,15 @@ def signup():
             flash("Passwords don't match. Please try again.", category = 'error')
         elif len(password1) < 7:
             flash('Password must be at least 7 characters. Please try again.', category = 'error')
+        elif request.form.get('state') == None:
+            flash('Please enter a valid state.', category = 'error')
         else:
             new_user = User(email=email,\
                 username=username, \
                 password=generate_password_hash(password1, method='sha256'), \
+                state = request.form.get('state'), \
+                priority = request.form.get('priority'), \
+                budget = request.form.get('goal_price'), \
                 totalMoneySaved = 0
                 )
             db.session.add(new_user)
