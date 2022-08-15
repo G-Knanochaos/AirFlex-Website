@@ -20,13 +20,13 @@ AirFlex was a challenge to construct. Stepping out of data science and back end 
 -Go to 'Fan Calculator' to give the estimated electricity  cost of running a fan that you have. <br />
 
 ## LATEST UPDATE:
--Added 'personal settings' section in 'AC Usage Progress' page
+-Added 'personal settings' section in 'AC Usage Progress' page <br />
 
 ## FUTURE UPDATES/FIXES:
--Fix Radio toggle text overlay bug
--Make 'AC Usage Setting' graph divs stack vertically on smaller screens
--Make more extensive personal settings (add AC BTU, EER, size, and type info)
--Make about page
--Add relevant images to calculator features lists
--Add github package hosting
+-Fix Radio toggle text overlay bug<br />
+-Make 'AC Usage Setting' graph divs stack vertically on smaller screens <br />
+-Make more extensive personal settings (add AC BTU, EER, size, and type info)<br />
+-Make about page<br />
+-Add relevant images to calculator features lists<br />
+-Add github package hosting<br />
 
