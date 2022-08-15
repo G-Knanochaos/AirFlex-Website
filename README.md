@@ -25,6 +25,7 @@ AirFlex was a challenge to construct. Stepping out of data science and back end 
 ## FUTURE UPDATES/FIXES:
 -Fix Radio toggle text overlay bug<br />
 -Make 'AC Usage Setting' graph divs stack vertically on smaller screens <br />
+-Fix Fan Calculator type bug<br />
 -Make more extensive personal settings (add AC BTU, EER, size, and type info)<br />
 -Make about page<br />
 -Add relevant images to calculator features lists<br />
