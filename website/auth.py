@@ -1,3 +1,4 @@
+from tkinter import EW
 from flask import Blueprint, render_template, request, flash, redirect, url_for
 from .models import User
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -44,6 +45,11 @@ def signup():
         username = request.form.get('username')
         password1 = request.form.get('password1')
         password2 = request.form.get('password2')
+        state = request.form.get('state')
+        BTU_rating = None if request.form.get('BTU_rating') == "" else request.form.get('BTU_rating')
+        wattage =  None if request.form.get('wattate') == "" else request.form.get('wattate')
+        size = None if request.form.get('size') == "" else request.form.get('size')
+        typ = None if request.form.get('type') == "" else request.form.get('type')
 
         user = User.query.filter_by(email=email).first()
         name = User.query.filter_by(username=username).first()
@@ -59,15 +65,20 @@ def signup():
             flash("Passwords don't match. Please try again.", category = 'error')
         elif len(password1) < 7:
             flash('Password must be at least 7 characters. Please try again.', category = 'error')
-        elif request.form.get('state') == None:
-            flash('Please enter a valid state.', category = 'error')
+        elif BTU_rating == None and wattage == None and size == None and typ == None:
+            flash('Please input a valid BTU rating, wattage, size and/or type.', category = 'error')
         else:
-            new_user = User(email=email,\
-                username=username, \
-                password=generate_password_hash(password1, method='sha256'), \
-                state = request.form.get('state'), \
-                priority = request.form.get('priority'), \
-                budget = request.form.get('goal_price'), \
+            new_user = User(email=email,
+                username=username, 
+                password=generate_password_hash(password1, method='sha256'), 
+                BTU_rating = BTU_rating,
+                wattage = wattage,
+                size = size,
+                typ = typ,
+                EER = request.form.get('EER'),
+                state = state, 
+                priority = request.form.get('priority'), 
+                budget = request.form.get('goal_price'), 
                 totalMoneySaved = 0
                 )
             db.session.add(new_user)

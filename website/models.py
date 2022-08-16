@@ -31,6 +31,11 @@ class User(db.Model, UserMixin):
     state = db.Column(db.String)
     priority = db.Column(db.String)
     budget = db.Column(db.Integer())
+    BTU_rating = db.Column(db.Integer())
+    wattage = db.Column(db.Integer())
+    size = db.Column(db.String())
+    typ = db.Column(db.String())
+    EER = db.Column(db.Integer())
     ACdata = db.relationship('ACdatum')  # reference to ACdatum from User #ACdata is list of ACdatum
     fanData = db.relationship('FanData')
     totalMoneySaved = db.Column(db.Integer(), server_default="0")

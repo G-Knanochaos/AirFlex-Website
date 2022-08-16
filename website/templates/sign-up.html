@@ -1,6 +1,26 @@
-{% extends "base2.html" %} {% block title %}Sign-up{% endblock %} {% block
+{% extends "base2.html" %} {% block title %}Sign-up{% endblock %} 
+{% block head_specs %}
+<link
+      href="https://uploads-ssl.webflow.com/62e8b794c129c6d31dfb3e87/css/g-ks-dandy-site.webflow.ac37f78a8.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+<style>
+label {
+  font-weight: bold;
+}
+</style>
+{% endblock %}
+{% block
 content %}
-<div class="container">
+<script type = "text/javascript">
+  function LoadNextQuestion(QuestionID) {
+    let el = document.getElementById(QuestionID);
+    el.style = "display:block";
+  }
+</script>
+
+<div class="container" style = "text-align:left">
 <form method="POST">
   <h3 align="center">Sign Up</h3>
   <div class="form-group">
@@ -43,6 +63,77 @@ content %}
       id="password2"
       name="password2"
       placeholder="Confirm password"
+      required
+    />
+  </div>
+  <div class = "form-group">
+    <label for="BTU_rating">What is your AC's BTU rating? (click "not sure" if not sure)</label>
+    <input
+        type="number"
+        class="form-control"
+        id="BTU_rating"
+        name="BTU_rating"
+        placeholder="E.g. 40,000"
+        step = "1"
+        min="1000"
+        max="100000"
+      /> 
+      <button class = "btn btn-light" type="button" onclick="LoadNextQuestion('wattage_form')">
+        Not Sure
+      </button>
+  </div>
+  <div class = "form-group" style = "display:none" id = "wattage_form">
+    <label for="wattage">What is your AC's wattage? (click "not sure" if not sure)</label>
+        <input
+          type="number"
+          class="form-control"
+          id="wattage"
+          name="wattage"
+          placeholder="E.g. 2,000"
+          step = "1"
+          min="83"
+          max="6667" 
+        />
+        <button class = "btn btn-light" type="button" onclick="LoadNextQuestion('type-size_form')">
+          Not Sure
+        </button>
+  </div>
+  <div style = "display:none" id = "type-size_form">
+    <div class="form-group">
+      <label for="size">What is your AC's size?</label>
+      <div class="form-check">
+        <input type="radio" class="form-check-input" id="size-Small" name="size" value="Small" >
+        <label class="form-check-label" for="size">Small</label>
+        <input type="radio" class="form-check-input" id="size-Medium" name="size" value="Medium"  >
+        <label class="form-check-label" for="size">Medium</label>
+        <input type="radio" class="form-check-input" id="size-Large" name="size" value="Large"  >
+        <label class="form-check-label" for="size">Large</label>
+      </div>
+    </div>  
+    <div class="form-group">
+      <label for="type">What is your AC's type?</label>
+      <div class="form-check">
+        <input type="radio" class="form-check-input" id="type-central" name="type" value="Central"  >
+        <label class="form-check-label" for="type">Central</label>
+        <input type="radio" class="form-check-input" id="type-window" name="type" value="Window unit"  >
+        <label class="form-check-label" for="type">Window</label>
+        <input type="radio" class="form-check-input" id="type-mini_split" name="type" value="Mini split"  >
+        <label class="form-check-label" for="type">Mini split</label>
+      </div>
+    </div>  
+  </div>
+  <div class="form-group">
+    <label for="EER">What is your AC's EER (energy effeciency ratio)? (skip if not sure)</label>
+    <input
+      type="number"
+      class="form-control"
+      id="EER"
+      name="EER"
+      placeholder="E.g. 7.5"
+      value = "8.5"
+      step="0.5"
+      min="6.0"
+      max="12.0"
       required
     />
   </div>
@@ -106,15 +197,15 @@ content %}
   <div class="form-group">
     <label for="priority">What would you like to change about your AC usage?</label>
     <div class="form-check">
-      <input type="radio" class="form-check-input" id="priority" name="priority" value="Temperature" checked required>
+      <input type="radio" class="form-check-input" id="priority-Temperature" name="priority" value="Temperature"  required>
       <label class="form-check-label" for="priority">Temperature</label>
     </div>
     <div class="form-check">
-      <input type="radio" class="form-check-input" id="priority" name="priority" value="Hours" checked>
+      <input type="radio" class="form-check-input" id="priority-Hours" name="priority" value="Hours" >
       <label class="form-check-label" for="priority">Hours</label>
     </div>
     <div class="form-check">
-      <input type="radio" class="form-check-input" id="priority" name="priority" value="Both" checked>
+      <input type="radio" class="form-check-input" id="priority-Both" name="priority" value="Both" checked>
       <label class="form-check-label" for="priority">Both</label>
     </div>
   </div>

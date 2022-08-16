@@ -32,8 +32,12 @@ def aircalculator():
     global recent_bill_iter
     if request.method == 'POST':
         #error checking:
-        KwH, GOT = AC_Calc.KwH(inp('BTU_rating'), inp('wattage'), inp('type'), inp('size'))
-        res_iter = AC_Calc.Price(KwH, inp('EER'), inp('hours'), inp('temp'), current_user.state,
+
+        KwH, GOT = AC_Calc.KwH(current_user.BTU_rating, 
+                                current_user.wattage, 
+                                current_user.typ.lower() if current_user.typ != None else None, 
+                                current_user.size.lower() if current_user.size != None else None)
+        res_iter = AC_Calc.Price(KwH, current_user.EER, inp('hours'), inp('temp'), current_user.state,
                                  inp('major-city'), inp('month'), inp('day-avg-temp'), inp('day-high-temp'),
                                  inp('save'))
         sugg_iter = AC_Calc.sugg_temp(res_iter[0], res_iter[1], res_iter[3] - res_iter[2], res_iter[3],
@@ -81,13 +85,14 @@ def is_empty(iter):
 @login_required
 def actracker():
     if request.method == "POST":
-        if request.form.get("state"):
-            current_user.state = request.form.get("state")
-            current_user.priority = request.form.get("priority")
-            current_user.budget = request.form.get("goal_price")
-            flash('New account settings saved', category = 'success') 
-        else:
-            flash('Please input a valid state', category = 'error') 
+        current_user.state = current_user.state if request.form.get("state") == None else request.form.get("state")
+        current_user.priority = current_user.priority if request.form.get("priority") == None else request.form.get("priority")
+        current_user.budget = current_user.budget if request.form.get("goal_price") == "" else int(request.form.get("goal_price"))
+        current_user.BTU_rating = current_user.BTU_rating if request.form.get("BTU_rating") == "" else request.form.get("BTU_rating")
+        current_user.wattage =  current_user.wattage if request.form.get("wattage") == "" else request.form.get("wattage")
+        current_user.size =  current_user.size if request.form.get("size") == None else request.form.get("size")
+        current_user.typ =  current_user.typ if request.form.get("type") == None else request.form.get("type")
+        flash('New account settings saved', category = 'success') 
     line_charts = [
         ["Entry " + str(label) for label in list(range(1,len(current_user.ACdata)+1))], #labels 
         [int(datum.temp) for datum in current_user.ACdata], #temperature data
