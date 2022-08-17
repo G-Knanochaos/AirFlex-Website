@@ -22,9 +22,3 @@ AirFlex was a challenge to construct. Stepping out of data science and back end 
 ## LATEST UPDATE:
 -Added 'personal settings' section in 'AC Usage Progress' page <br />
 
-## FUTURE UPDATES/FIXES:
--Fix Fan Calculator type bug<br />
--Make about page<br />
--Add relevant images to calculator features lists<br />
--Add github package hosting<br />
-
