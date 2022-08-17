@@ -8,17 +8,7 @@ Our solution, AirFlex, is the one-size-fits-all solution to objectively measure 
 <br />
 AirFlex was a challenge to construct. Stepping out of data science and back end calculations for Christopher were difficult, and working with a front end for the first time was a new experience for him. The greatest challenge was indubitably connecting the back end to the front end for both team members. Working with a team was in and of itself a challenge as having to communicate complex programming ideas to other people was a completely alien concept to both members, who were both conditioned by years of solo programming.  
 
-
-## HOW TO INITIATE THE WEBSITE
--Step 1: Make sure to install all requirements (in the requirements.txt file) <br />
--Step 2: Run the main.py file <br />
--Step 3: Go to http://127.0.0.1:7000/ <br />
-
 ## FUNCTIONALITY:
 -Create accounts using an email and a password. <br />
 -Go to 'Air Calculator' to give an estimated bill and give a suggested runtime/temperature for your AC based on a budget. <br />
 -Go to 'Fan Calculator' to give the estimated electricity  cost of running a fan that you have. <br />
-
-## LATEST UPDATE:
--Added 'personal settings' section in 'AC Usage Progress' page <br />
-
